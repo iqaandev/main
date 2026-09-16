@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { FolderCheck, Globe, Shield, Users } from 'lucide-react';
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 interface StatItem {
-  icon: React.ReactNode;
   value: number;
   suffix: string;
   label: string;
@@ -13,34 +13,18 @@ interface StatItem {
 }
 
 const stats: StatItem[] = [
-  {
-    icon: <FolderCheck className="h-6 w-6 text-primary" />,
-    value: 500,
-    suffix: '+',
-    label: 'Projects Delivered',
-    decimals: 0,
-  },
-  {
-    icon: <Globe className="h-6 w-6 text-primary" />,
-    value: 200,
-    suffix: '+',
-    label: 'Global Clients',
-    decimals: 0,
-  },
-  {
-    icon: <Shield className="h-6 w-6 text-primary" />,
-    value: 99.9,
-    suffix: '%',
-    label: 'Uptime Guarantee',
-    decimals: 1,
-  },
-  {
-    icon: <Users className="h-6 w-6 text-primary" />,
-    value: 50,
-    suffix: '+',
-    label: 'Expert Engineers',
-    decimals: 0,
-  },
+  { value: 500, suffix: '+', label: 'Projects Delivered', decimals: 0 },
+  { value: 200, suffix: '+', label: 'Global Clients', decimals: 0 },
+  { value: 99.9, suffix: '%', label: 'Uptime Guarantee', decimals: 1 },
+  { value: 50, suffix: '+', label: 'Expert Engineers', decimals: 0 },
+];
+
+/* responsive hairline dividers for the 2×2 → 1×4 stat grid */
+const cellBorders = [
+  '',
+  'border-l border-ink/10',
+  'border-t border-ink/10 lg:border-l lg:border-t-0',
+  'border-l border-t border-ink/10 lg:border-t-0',
 ];
 
 function useCountUp(
@@ -63,8 +47,6 @@ function useCountUp(
 
       const elapsed = timestamp - startTimeRef.current;
       const progress = Math.min(elapsed / duration, 1);
-
-      // ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
 
       setCount(Number((eased * target).toFixed(decimals)));
@@ -87,15 +69,7 @@ function useCountUp(
   return count;
 }
 
-function StatCard({
-  stat,
-  index,
-  isLast,
-}: {
-  stat: StatItem;
-  index: number;
-  isLast: boolean;
-}) {
+function StatCell({ stat, index }: { stat: StatItem; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
   const count = useCountUp(stat.value, isInView, 2000, stat.decimals);
@@ -103,25 +77,18 @@ function StatCard({
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.6, delay: index * 0.15, ease: 'easeOut' }}
-      className={`flex flex-col items-center gap-3 text-center px-4 py-4 ${
-        !isLast ? 'border-r border-border/30' : ''
-      }`}
+      initial={{ opacity: 0, y: 24 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+      transition={{ duration: 0.8, delay: index * 0.1, ease: EASE }}
+      className={`px-6 py-12 text-center md:py-16 ${cellBorders[index]}`}
     >
-      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-        {stat.icon}
-      </div>
-
-      <span className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+      <p className="font-serif text-5xl font-light leading-none tracking-tight text-ink md:text-6xl lg:text-7xl">
         {count}
-        {stat.suffix}
-      </span>
-
-      <span className="text-muted-foreground text-sm md:text-base uppercase tracking-wider">
+        <span className="text-viridian">{stat.suffix}</span>
+      </p>
+      <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.22em] text-ink/50 sm:text-[11px]">
         {stat.label}
-      </span>
+      </p>
     </motion.div>
   );
 }
@@ -133,22 +100,18 @@ export default function Stats() {
   return (
     <section
       ref={sectionRef}
-      className="w-full py-16 md:py-20 bg-gradient-to-r from-background via-card to-background"
+      aria-label="Studio statistics"
+      className="py-20 md:py-28"
     >
       <motion.div
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8"
+        transition={{ duration: 0.6 }}
+        className="mx-auto max-w-6xl px-6 lg:px-8"
       >
-        <div className="grid grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 border-y border-ink/10 lg:grid-cols-4">
           {stats.map((stat, index) => (
-            <StatCard
-              key={stat.label}
-              stat={stat}
-              index={index}
-              isLast={index === stats.length - 1}
-            />
+            <StatCell key={stat.label} stat={stat} index={index} />
           ))}
         </div>
       </motion.div>

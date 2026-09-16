@@ -1,64 +1,44 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Search, PenTool, Code, Rocket, LucideIcon } from 'lucide-react';
+import { motion, useInView, Variants } from 'framer-motion';
 
-const steps: {
-  number: string;
-  title: string;
-  description: string;
-  icon: LucideIcon;
-}[] = [
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const steps = [
   {
     number: '01',
     title: 'Discovery & Strategy',
     description:
-      'We dive deep into your business goals, user needs, and market landscape to craft a winning technical strategy.',
-    icon: Search,
+      'We learn your business, your users, and the problem worth solving — then chart the technical strategy.',
   },
   {
     number: '02',
     title: 'Design & Architecture',
     description:
-      'Our designers and architects create intuitive interfaces and scalable system designs that stand the test of time.',
-    icon: PenTool,
+      'Interfaces and systems designed together — intuitive to use, built to last.',
   },
   {
     number: '03',
     title: 'Development & Testing',
     description:
-      'Agile development with continuous integration, rigorous testing, and transparent progress tracking.',
-    icon: Code,
+      'Agile builds with continuous integration, rigorous testing, and progress you can see.',
   },
   {
     number: '04',
     title: 'Launch & Scale',
     description:
-      'Seamless deployment, monitoring, and ongoing optimization to ensure your product thrives in production.',
-    icon: Rocket,
+      'Seamless deployment, constant monitoring, and the optimization production demands.',
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
+const stepVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.6,
-      ease: 'easeOut',
-    },
-  },
+    transition: { delay: i * 0.1, duration: 0.8, ease: EASE },
+  }),
 };
 
 export default function Process() {
@@ -66,108 +46,62 @@ export default function Process() {
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   return (
-    <section id="process" ref={sectionRef} className="relative py-24 md:py-32 bg-background">
-      {/* Horizontal gradient timeline line – desktop only */}
-      <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-[2px] -translate-y-1/2 pointer-events-none">
-        <div className="w-full h-full bg-gradient-to-r from-primary to-primary/0" />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+    <section
+      id="process"
+      ref={sectionRef}
+      aria-label="Process"
+      className="scroll-mt-20 border-t border-ink/10 py-24 md:py-32"
+    >
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16 md:mb-20"
+          transition={{ duration: 0.8, ease: EASE }}
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-            Our Development Process
-          </h2>
-          <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            A proven methodology that delivers results, every time
+          <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink/50">
+            04 — Process
           </p>
+          <h2 className="mt-6 text-balance font-serif text-4xl font-light leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            From first call to <em className="italic text-viridian">launch</em>.
+          </h2>
         </motion.div>
 
-        {/* Process Steps Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6"
-        >
-          {/* Vertical timeline line – mobile & tablet only */}
-          <div className="md:col-span-2 lg:hidden absolute top-0 bottom-0 left-[23px] w-[2px] pointer-events-none">
-            <div className="w-full h-full bg-gradient-to-b from-primary to-primary/0" />
-          </div>
+        {/* Timeline — vertical hairline on mobile, hairline grid on desktop */}
+        <ol className="relative mt-16 md:mt-24 md:grid md:grid-cols-4 md:gap-10">
+          {/* vertical hairline */}
+          <span
+            aria-hidden="true"
+            className="absolute bottom-2 left-0 top-2 w-px bg-ink/15 md:hidden"
+          />
 
-          {steps.map((step, index) => {
-            const Icon = step.icon;
+          {steps.map((step, i) => (
+            <motion.li
+              key={step.number}
+              custom={i}
+              variants={stepVariants}
+              initial="hidden"
+              animate={isInView ? 'visible' : 'hidden'}
+              className="relative border-ink/15 pl-10 md:border-t md:pb-0 md:pl-0 md:pt-8 lg:pl-6"
+            >
+              {/* gold diamond marker on the timeline */}
+              <span
+                aria-hidden="true"
+                className="absolute left-[-3.5px] top-2 h-[7px] w-[7px] rotate-45 bg-gold md:left-0 md:top-[-3.5px]"
+              />
 
-            return (
-              <motion.div
-                key={step.number}
-                variants={cardVariants}
-                className="relative"
-              >
-                {/* Mobile / Tablet layout */}
-                <div className="flex lg:hidden items-start gap-6">
-                  {/* Timeline dot */}
-                  <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/25">
-                    <Icon className="w-5 h-5 text-primary-foreground" />
-                  </div>
-
-                  {/* Card */}
-                  <div className="bg-card border border-border/50 rounded-2xl p-6 relative overflow-hidden flex-1 mb-8">
-                    {/* Large step number watermark */}
-                    <span className="absolute -top-2 -right-1 text-6xl font-bold text-primary/10 select-none pointer-events-none">
-                      {step.number}
-                    </span>
-
-                    <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-1">
-                      Step {step.number}
-                    </p>
-                    <h3 className="text-xl font-semibold text-foreground mb-3">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-muted-foreground">
-                      {step.description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Desktop layout */}
-                <div className="hidden lg:block">
-                  <div className="bg-card border border-border/50 rounded-2xl p-8 relative overflow-hidden text-center h-full">
-                    {/* Large step number watermark */}
-                    <span className="absolute -top-4 -right-2 text-6xl font-bold text-primary/10 select-none pointer-events-none">
-                      {step.number}
-                    </span>
-
-                    {/* Icon circle */}
-                    <div className="relative z-10 mx-auto mb-6 w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center border-2 border-primary/20">
-                      <Icon className="w-7 h-7 text-primary" />
-                    </div>
-
-                    <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">
-                      Step {step.number}
-                    </p>
-                    <h3 className="text-lg font-semibold text-foreground mb-3">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-muted-foreground">
-                      {step.description}
-                    </p>
-                  </div>
-
-                  {/* Connector dot on the horizontal line */}
-                  {index < steps.length - 1 && (
-                    <div className="absolute top-1/2 -right-3 -translate-y-1/2 w-2 h-2 rounded-full bg-primary/40 z-10 hidden lg:block" />
-                  )}
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+              <p className="font-serif text-4xl font-light leading-none text-ink/30">
+                {step.number}
+              </p>
+              <h3 className="mt-5 font-serif text-xl font-normal tracking-tight text-ink sm:text-2xl">
+                {step.title}
+              </h3>
+              <p className="mb-12 mt-3 text-sm leading-relaxed text-ink/60 md:mb-0">
+                {step.description}
+              </p>
+            </motion.li>
+          ))}
+        </ol>
       </div>
     </section>
   );

@@ -1,27 +1,27 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Code2, Cloud, Rocket, CheckCircle2, ArrowRight } from 'lucide-react';
+import { motion, useInView, Variants } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 
 const services = [
   {
-    icon: Code2,
+    index: '01',
     title: 'Custom Software Development',
     description:
-      'We architect and build bespoke software solutions that perfectly align with your unique business requirements. From enterprise systems to consumer applications, our code powers innovation.',
+      'Bespoke systems shaped around the way you work — from enterprise applications to the APIs that hold them together.',
     features: [
       'Enterprise Applications',
       'API Development & Integration',
-      'Legacy System Modernization',
+      'Legacy Modernization',
       'Microservices Architecture',
     ],
   },
   {
-    icon: Cloud,
+    index: '02',
     title: 'SaaS Platform Development',
     description:
-      'Build scalable, multi-tenant SaaS platforms that grow with your business. We handle everything from subscription management to real-time analytics.',
+      'Multi-tenant platforms engineered to grow with you — from first user to global scale.',
     features: [
       'Multi-tenant Architecture',
       'Subscription Management',
@@ -30,10 +30,10 @@ const services = [
     ],
   },
   {
-    icon: Rocket,
+    index: '03',
     title: 'Product Engineering',
     description:
-      'Transform your vision into market-ready products. Our product engineering team combines technical excellence with user-centric design thinking.',
+      'From first sketch to shipped product — engineering and design practiced as one discipline.',
     features: [
       'MVP Development',
       'UI/UX Design',
@@ -43,25 +43,15 @@ const services = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-};
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
+const rowVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.6,
-      ease: 'easeOut',
-    },
-  },
+    transition: { delay: i * 0.1, duration: 0.8, ease: EASE },
+  }),
 };
 
 export default function Services() {
@@ -69,84 +59,109 @@ export default function Services() {
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   return (
-    <section id="services" className="py-20 md:py-28" ref={sectionRef}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+    <section
+      id="services"
+      ref={sectionRef}
+      aria-label="Services"
+      className="scroll-mt-20 border-t border-ink/10 py-24 md:py-32"
+    >
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        {/* Section header */}
         <motion.div
-          className="text-center mb-16 md:mb-20"
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+          transition={{ duration: 0.8, ease: EASE }}
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
-            Our Core Services
-          </h2>
-          {/* Gradient Accent Line */}
-          <div className="mx-auto mb-6 h-1 w-24 rounded-full bg-gradient-to-r from-primary via-emerald-400 to-primary" />
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            End-to-end software solutions tailored to accelerate your business
-            growth
+          <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink/50">
+            01 — Services
           </p>
+          <h2 className="mt-6 text-balance font-serif text-4xl font-light leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            Three ways we <em className="italic text-viridian">build</em>.
+          </h2>
         </motion.div>
 
-        {/* Service Cards Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-        >
-          {services.map((service) => {
-            const Icon = service.icon;
-
-            return (
-              <motion.div
-                key={service.title}
-                variants={cardVariants}
-                whileHover={{ scale: 1.03, y: -4 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="group relative bg-card border border-border/50 rounded-2xl p-6 md:p-8 transition-colors duration-300 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(16,185,129,0.08)]"
+        {/* Index rows */}
+        <div className="mt-16 md:mt-20">
+          {services.map((service, i) => (
+            <motion.a
+              key={service.title}
+              href="#contact"
+              aria-label={`Start a project — ${service.title}`}
+              onClick={(e) => {
+                e.preventDefault();
+                document
+                  .querySelector('#contact')
+                  ?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              custom={i}
+              variants={rowVariants}
+              initial="hidden"
+              animate={isInView ? 'visible' : 'hidden'}
+              className={`group grid grid-cols-1 gap-x-10 gap-y-5 px-4 py-10 transition-colors duration-500 hover:bg-ink/[0.03] sm:px-6 md:grid-cols-[5rem_1fr_2rem] md:py-12 lg:grid-cols-[7rem_1fr_19rem_3rem] ${
+                i > 0 ? 'border-t border-ink/10' : ''
+              }`}
+            >
+              {/* index numeral */}
+              <span
+                aria-hidden="true"
+                className="font-serif text-4xl font-light leading-none text-ink/25 transition-colors duration-500 group-hover:text-gold md:pt-2 md:text-5xl"
               >
-                {/* Icon */}
-                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10">
-                  <Icon className="h-7 w-7 text-primary" strokeWidth={1.8} />
-                </div>
+                {service.index}
+              </span>
 
-                {/* Title */}
-                <h3 className="mb-3 text-xl font-semibold tracking-tight text-foreground">
+              {/* title + description */}
+              <div>
+                <h3 className="font-serif text-2xl font-normal tracking-tight text-ink sm:text-3xl">
                   {service.title}
                 </h3>
-
-                {/* Description */}
-                <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-3 max-w-md text-sm leading-relaxed text-ink/60 sm:text-base">
                   {service.description}
                 </p>
 
-                {/* Features List */}
-                <ul className="mb-8 space-y-3">
-                  {service.features.map((feature) => (
+                {/* features — revealed under on smaller screens */}
+                <ul className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 lg:hidden">
+                  {service.features.map((feature, j) => (
                     <li
                       key={feature}
-                      className="flex items-start gap-3 text-sm text-muted-foreground"
+                      className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.15em] text-ink/50"
                     >
-                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary/70" />
-                      <span>{feature}</span>
+                      {j > 0 && (
+                        <span
+                          aria-hidden="true"
+                          className="h-[4px] w-[4px] rotate-45 bg-gold/70"
+                        />
+                      )}
+                      {feature}
                     </li>
                   ))}
                 </ul>
+              </div>
 
-                {/* Learn More */}
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
-                >
-                  Learn More
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </a>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+              {/* features — quiet mono list on the right (desktop) */}
+              <ul className="hidden list-none space-y-2.5 lg:block">
+                {service.features.map((feature) => (
+                  <li
+                    key={feature}
+                    className="font-mono text-[11px] uppercase leading-relaxed tracking-[0.15em] text-ink/50"
+                  >
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              {/* sliding arrow */}
+              <span className="hidden items-center justify-end md:flex lg:col-start-4">
+                <ArrowRight
+                  aria-hidden="true"
+                  className="h-5 w-5 text-ink/30 transition-all duration-500 group-hover:translate-x-1.5 group-hover:text-viridian"
+                />
+              </span>
+            </motion.a>
+          ))}
+
+          {/* closing rule */}
+          <div aria-hidden="true" className="border-t border-ink/10" />
+        </div>
       </div>
     </section>
   );

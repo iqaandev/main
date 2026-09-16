@@ -1,128 +1,168 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Star, Quote } from 'lucide-react';
+import { motion, useInView, Variants } from 'framer-motion';
+import { Star } from 'lucide-react';
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const featured = {
+  name: 'Sarah Chen',
+  title: 'CTO of TechVenture',
+  initials: 'SC',
+  rating: 5,
+  quote:
+    'IQAAN transformed our legacy systems into a modern, scalable platform. The new system handles 10x our previous load with zero downtime.',
+};
 
 const testimonials = [
   {
-    name: 'Sarah Chen',
-    title: 'CTO of TechVenture',
-    quote:
-      'IQAAN transformed our legacy systems into a modern, scalable platform. Their team\'s technical expertise and dedication to quality exceeded all our expectations. The new system handles 10x our previous load with zero downtime.',
-    rating: 5,
-    initials: 'SC',
-  },
-  {
     name: 'Marcus Rodriguez',
     title: 'CEO of DataSphere',
-    quote:
-      'Working with IQAAN on our SaaS platform was the best decision we made. They delivered on time, within budget, and the product quality was outstanding. Our user base grew 300% in the first quarter post-launch.',
-    rating: 5,
     initials: 'MR',
+    rating: 5,
+    quote:
+      'The best decision we made. On time, on budget, outstanding quality — our user base grew 300% in the first quarter after launch.',
   },
   {
     name: 'Emily Watson',
     title: 'VP Engineering at CloudNine',
-    quote:
-      'The IQAAN team doesn\'t just write code — they become true partners in your success. Their product thinking and architectural expertise helped us avoid costly mistakes and ship faster.',
-    rating: 5,
     initials: 'EW',
+    rating: 5,
+    quote:
+      "IQAAN doesn't just write code — they become true partners in your success. Their product thinking helped us avoid costly mistakes and ship faster.",
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
+const reveal: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.6,
-      ease: 'easeOut',
-    },
-  },
+    transition: { delay: i * 0.12, duration: 0.85, ease: EASE },
+  }),
 };
 
+function Stars({ count }: { count: number }) {
+  return (
+    <div
+      className="flex items-center gap-1"
+      role="img"
+      aria-label={`${count} out of 5 stars`}
+    >
+      {Array.from({ length: count }).map((_, i) => (
+        <Star
+          key={i}
+          aria-hidden="true"
+          className="h-3 w-3 fill-gold text-gold"
+          strokeWidth={1}
+        />
+      ))}
+    </div>
+  );
+}
+
+function Monogram({ initials }: { initials: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-ink/20 font-serif text-sm tracking-wider text-ink"
+    >
+      {initials}
+    </span>
+  );
+}
+
 export default function Testimonials() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
+  const visible = isInView ? 'visible' : 'hidden';
+
   return (
-    <section ref={sectionRef} className="py-20 md:py-28 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+    <section
+      ref={sectionRef}
+      aria-label="Client voices"
+      className="border-t border-ink/10 py-24 md:py-32"
+    >
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: EASE }}
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
-            What Our Clients Say
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            Don&apos;t just take our word for it
+          <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink/50">
+            05 — Client voices
           </p>
+          <h2 className="mt-6 text-balance font-serif text-4xl font-light leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            In their <em className="italic text-viridian">words</em>.
+          </h2>
         </motion.div>
 
-        {/* Testimonials Grid */}
-        <motion.div
-          variants={containerVariants}
+        {/* Featured pull-quote */}
+        <motion.figure
+          custom={0}
+          variants={reveal}
           initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8"
+          animate={visible}
+          className="mt-16 border-b border-ink/10 pb-16 md:mt-20 md:pb-20"
         >
-          {testimonials.map((testimonial) => (
-            <motion.div
-              key={testimonial.name}
-              variants={cardVariants}
-              className="group bg-card border border-border/50 rounded-2xl p-6 md:p-8 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
+          <Stars count={featured.rating} />
+          <blockquote className="mt-8 max-w-4xl">
+            <p className="text-balance font-serif text-2xl font-light leading-[1.25] tracking-tight text-ink sm:text-3xl lg:text-4xl">
+              <span
+                aria-hidden="true"
+                className="mr-2 align-top font-serif text-gold"
+              >
+                &ldquo;
+              </span>
+              {featured.quote}
+              <span aria-hidden="true" className="font-serif text-gold">
+                &rdquo;
+              </span>
+            </p>
+          </blockquote>
+          <figcaption className="mt-10 flex items-center gap-4">
+            <Monogram initials={featured.initials} />
+            <div>
+              <p className="font-medium text-ink">{featured.name}</p>
+              <p className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-ink/50">
+                {featured.title}
+              </p>
+            </div>
+          </figcaption>
+        </motion.figure>
+
+        {/* Two quieter cards */}
+        <div className="grid gap-8 pt-16 md:grid-cols-2 md:gap-12 md:pt-20">
+          {testimonials.map((t, i) => (
+            <motion.figure
+              key={t.name}
+              custom={i + 1}
+              variants={reveal}
+              initial="hidden"
+              animate={visible}
+              className="rounded-sm border border-ink/10 bg-card p-8 md:p-10"
             >
-              {/* Star Rating */}
-              <div className="flex gap-1 mb-6">
-                {Array.from({ length: testimonial.rating }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-5 h-5 fill-amber-400 text-amber-400"
-                  />
-                ))}
-              </div>
-
-              {/* Quote */}
-              <div className="relative mb-8">
-                <Quote className="text-3xl text-primary/30 font-serif mb-4" />
-                <p className="text-base md:text-lg leading-relaxed text-foreground/90 italic">
-                  {testimonial.quote}
+              <Stars count={t.rating} />
+              <blockquote className="mt-6">
+                <p className="font-serif text-lg font-light leading-relaxed text-ink/90 sm:text-xl">
+                  &ldquo;{t.quote}&rdquo;
                 </p>
-              </div>
-
-              {/* Author Info */}
-              <div className="flex items-center gap-4 pt-6 border-t border-border/50">
-                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-semibold text-sm shrink-0">
-                  {testimonial.initials}
-                </div>
+              </blockquote>
+              <figcaption className="mt-8 flex items-center gap-4 border-t border-ink/10 pt-6">
+                <Monogram initials={t.initials} />
                 <div>
-                  <p className="font-semibold text-foreground">
-                    {testimonial.name}
-                  </p>
-                  <p className="text-muted-foreground text-sm">
-                    {testimonial.title}
+                  <p className="font-medium text-ink">{t.name}</p>
+                  <p className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-ink/50">
+                    {t.title}
                   </p>
                 </div>
-              </div>
-            </motion.div>
+              </figcaption>
+            </motion.figure>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

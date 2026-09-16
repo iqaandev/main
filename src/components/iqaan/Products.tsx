@@ -1,240 +1,336 @@
 'use client';
 
-import Image from 'next/image';
-import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { ArrowRight, BarChart3, CloudCog } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { motion, useInView, Variants } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const reveal: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.12, duration: 0.85, ease: EASE },
+  }),
+};
+
+/* Analytics Pro — abstract bar + line chart, paper frame on an ink body */
+const chartBars = [34, 52, 41, 66, 48, 78, 58, 88];
+const linePoints = chartBars
+  .map((h, i) => `${(i + 0.5) * 12.5},${100 - h}`)
+  .join(' ');
+
+function AnalyticsMockup() {
+  return (
+    <div className="animate-float motion-reduce:animate-none" aria-hidden="true">
+      <div className="overflow-hidden rounded-lg border border-ink/15 bg-paper">
+        {/* browser chrome */}
+        <div className="flex items-center gap-1.5 border-b border-ink/10 px-4 py-3">
+          <span className="h-2 w-2 rounded-full bg-ink/15" />
+          <span className="h-2 w-2 rounded-full bg-ink/15" />
+          <span className="h-2 w-2 rounded-full bg-ink/15" />
+          <span className="ml-3 h-3.5 flex-1 rounded-full bg-ink/[0.05]" />
+        </div>
+
+        {/* chart body */}
+        <div className="bg-ink p-6 sm:p-8">
+          <div className="mb-6 flex items-center justify-between">
+            <div className="h-2.5 w-24 rounded-sm bg-paper/20" />
+            <div className="h-2.5 w-10 rounded-sm bg-gold/80" />
+          </div>
+
+          <div className="relative flex h-40 items-end gap-2 sm:h-52 sm:gap-3">
+            {chartBars.map((height, i) => (
+              <div
+                key={i}
+                style={{ height: `${height}%` }}
+                className={`flex-1 rounded-t-[2px] transition-colors ${
+                  i === 5
+                    ? 'bg-viridian'
+                    : i === 7
+                      ? 'bg-gold/90'
+                      : 'bg-paper/25'
+                }`}
+              />
+            ))}
+            <svg
+              className="pointer-events-none absolute inset-0 h-full w-full"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+            >
+              <polyline
+                points={linePoints}
+                fill="none"
+                stroke="var(--gold-bright)"
+                strokeWidth="1.5"
+                vectorEffect="non-scaling-stroke"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                opacity="0.9"
+              />
+            </svg>
+          </div>
+
+          <div className="mt-5 flex gap-2 border-t border-paper/10 pt-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div
+                key={i}
+                className={`h-1.5 flex-1 rounded-full ${
+                  i === 7 ? 'bg-gold/60' : 'bg-paper/15'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* CloudOps — abstract node topology, ink lines and dots on paper */
+const nodes = [
+  { x: 200, y: 140, r: 14, kind: 'center' },
+  { x: 78, y: 66, r: 7, kind: 'ink' },
+  { x: 318, y: 58, r: 7, kind: 'gold' },
+  { x: 342, y: 200, r: 9, kind: 'ink' },
+  { x: 92, y: 216, r: 9, kind: 'ink' },
+  { x: 232, y: 32, r: 5, kind: 'viridian' },
+  { x: 36, y: 140, r: 5, kind: 'viridian' },
+  { x: 280, y: 252, r: 7, kind: 'gold' },
+] as const;
+
+const links: [number, number][] = [
+  [0, 1],
+  [0, 2],
+  [0, 3],
+  [0, 4],
+  [0, 5],
+  [0, 6],
+  [0, 7],
+  [1, 6],
+  [2, 3],
+  [4, 7],
+];
+
+function CloudOpsMockup() {
+  return (
+    <div className="animate-float motion-reduce:animate-none" aria-hidden="true">
+      <div className="overflow-hidden rounded-lg border border-ink/15 bg-paper">
+        {/* browser chrome */}
+        <div className="flex items-center gap-1.5 border-b border-ink/10 px-4 py-3">
+          <span className="h-2 w-2 rounded-full bg-ink/15" />
+          <span className="h-2 w-2 rounded-full bg-ink/15" />
+          <span className="h-2 w-2 rounded-full bg-ink/15" />
+          <span className="ml-3 h-3.5 flex-1 rounded-full bg-ink/[0.05]" />
+        </div>
+
+        {/* topology body */}
+        <div className="p-6 sm:p-8">
+          <div className="mb-6 flex items-center justify-between">
+            <div className="h-2.5 w-24 rounded-sm bg-ink/15" />
+            <div className="h-2.5 w-10 rounded-sm bg-viridian/50" />
+          </div>
+
+          <svg
+            viewBox="0 0 400 280"
+            className="h-40 w-full sm:h-52"
+            role="presentation"
+          >
+            {/* orbit */}
+            <circle
+              cx="200"
+              cy="140"
+              r="108"
+              fill="none"
+              stroke="var(--ink)"
+              strokeOpacity="0.15"
+              strokeWidth="1"
+              strokeDasharray="3 5"
+            />
+            {/* links */}
+            {links.map(([a, b], i) => (
+              <line
+                key={i}
+                x1={nodes[a].x}
+                y1={nodes[a].y}
+                x2={nodes[b].x}
+                y2={nodes[b].y}
+                stroke="var(--ink)"
+                strokeOpacity="0.25"
+                strokeWidth="1"
+              />
+            ))}
+            {/* nodes */}
+            {nodes.map((n, i) =>
+              n.kind === 'center' ? (
+                <g key={i}>
+                  <circle cx={n.x} cy={n.y} r={n.r + 8} fill="var(--viridian)" fillOpacity="0.12" />
+                  <circle cx={n.x} cy={n.y} r={n.r} fill="var(--viridian)" />
+                  <circle cx={n.x} cy={n.y} r={n.r - 5} fill="none" stroke="var(--paper)" strokeOpacity="0.7" strokeWidth="1" />
+                </g>
+              ) : (
+                <circle
+                  key={i}
+                  cx={n.x}
+                  cy={n.y}
+                  r={n.r}
+                  fill={
+                    n.kind === 'gold'
+                      ? 'var(--gold)'
+                      : n.kind === 'viridian'
+                        ? 'var(--viridian)'
+                        : 'none'
+                  }
+                  stroke={
+                    n.kind === 'ink' ? 'var(--ink)' : 'none'
+                  }
+                  strokeOpacity="0.8"
+                  strokeWidth="1.25"
+                />
+              )
+            )}
+          </svg>
+
+          <div className="mt-5 flex gap-2 border-t border-ink/10 pt-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div
+                key={i}
+                className={`h-1.5 flex-1 rounded-full ${
+                  i === 2 ? 'bg-viridian/50' : 'bg-ink/10'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const products = [
   {
+    label: 'Venture 01',
     title: 'IQAAN Analytics Pro',
     description:
-      'Enterprise-grade analytics platform that transforms raw data into actionable insights with real-time dashboards, AI-powered predictions, and automated reporting.',
+      'Enterprise analytics that turns raw data into decisions — real-time dashboards, AI-powered predictions, and reporting on autopilot.',
     features: ['Real-time Dashboards', 'AI Predictions', 'Custom Reports', 'Data Pipeline'],
-    image: '/images/saas-product.png',
-    icon: BarChart3,
+    mockup: <AnalyticsMockup />,
     reverse: false,
   },
   {
+    label: 'Venture 02',
     title: 'IQAAN CloudOps',
     description:
-      'Comprehensive cloud management platform that simplifies infrastructure, automates deployments, and provides end-to-end visibility across your entire cloud ecosystem.',
+      'One plane of glass for your cloud — infrastructure, deployments, cost, and security across every environment you run.',
     features: ['Auto Scaling', 'Cost Optimization', 'Multi-cloud Support', 'Security Compliance'],
-    image: '/images/team.png',
-    icon: CloudCog,
+    mockup: <CloudOpsMockup />,
     reverse: true,
   },
 ];
-
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 60 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-const imageVariants = {
-  hidden: { opacity: 0, scale: 0.9, x: -30 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    x: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-      delay: 0.15,
-    },
-  },
-};
-
-const contentVariants = {
-  hidden: { opacity: 0, x: 30 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-      delay: 0.25,
-    },
-  },
-};
-
-const imageVariantsReverse = {
-  hidden: { opacity: 0, scale: 0.9, x: 30 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    x: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-      delay: 0.15,
-    },
-  },
-};
-
-const contentVariantsReverse = {
-  hidden: { opacity: 0, x: -30 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-      delay: 0.25,
-    },
-  },
-};
-
-const badgeVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: (i: number) => ({
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.4,
-      ease: [0.22, 1, 0.36, 1],
-      delay: 0.4 + i * 0.08,
-    },
-  }),
-};
 
 export default function Products() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   return (
-    <section id="products" className="py-24 px-4 sm:px-6 lg:px-8" ref={sectionRef}>
-      <div className="max-w-7xl mx-auto">
-        {/* Section Heading */}
+    <section
+      id="products"
+      ref={sectionRef}
+      aria-label="Products"
+      className="scroll-mt-20 border-t border-ink/10 py-24 md:py-32"
+    >
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: EASE }}
         >
-          <Badge variant="outline" className="mb-4">
-            Products
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
-            Our SaaS Products
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Ready-to-deploy solutions built for scale
+          <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink/50">
+            02 — Products
           </p>
+          <h2 className="mt-6 text-balance font-serif text-4xl font-light leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            Products &amp; <em className="italic text-viridian">ventures</em>.
+          </h2>
         </motion.div>
 
-        {/* Product Cards */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          className="space-y-16"
-        >
-          {products.map((product) => {
-            const Icon = product.icon;
-
-            return (
+        {/* Product splits */}
+        <div className="mt-16 space-y-24 md:mt-24 md:space-y-32">
+          {products.map((product, i) => (
+            <div
+              key={product.title}
+              className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20"
+            >
+              {/* visual */}
               <motion.div
-                key={product.title}
-                variants={cardVariants}
-                className="bg-card border border-border/50 rounded-2xl overflow-hidden"
+                custom={0}
+                variants={reveal}
+                initial="hidden"
+                animate={isInView ? 'visible' : 'hidden'}
+                className={product.reverse ? 'lg:order-2' : ''}
               >
-                <div
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-0 ${
-                    product.reverse ? 'lg:[direction:rtl]' : ''
-                  }`}
-                >
-                  {/* Image Side */}
-                  <motion.div
-                    variants={product.reverse ? imageVariantsReverse : imageVariants}
-                    className="relative p-6 sm:p-8 lg:p-10 flex items-center justify-center"
-                  >
-                    <div className="relative w-full max-w-md aspect-[4/3]">
-                      {/* Subtle glow effect */}
-                      <div
-                        className={`absolute inset-0 rounded-2xl bg-primary/10 blur-3xl ${
-                          product.reverse ? 'translate-x-4' : '-translate-x-4'
-                        }`}
-                      />
-                      <div
-                        className={`relative w-full h-full rounded-2xl overflow-hidden shadow-2xl border border-border/30`}
-                      >
-                        <Image
-                          src={product.image}
-                          alt={product.title}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 1024px) 100vw, 50vw"
-                        />
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* Content Side */}
-                  <motion.div
-                    variants={product.reverse ? contentVariantsReverse : contentVariants}
-                    className={`p-6 sm:p-8 lg:p-10 flex flex-col justify-center ${
-                      product.reverse ? 'lg:[direction:ltr]' : ''
-                    }`}
-                  >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10">
-                        <Icon className="w-5 h-5 text-primary" />
-                      </div>
-                    </div>
-
-                    <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground mb-4">
-                      {product.title}
-                    </h3>
-
-                    <p className="text-muted-foreground leading-relaxed mb-6">
-                      {product.description}
-                    </p>
-
-                    {/* Feature Badges */}
-                    <div className="flex flex-wrap gap-2 mb-8">
-                      {product.features.map((feature, i) => (
-                        <motion.span
-                          key={feature}
-                          custom={i}
-                          variants={badgeVariants}
-                          className="rounded-full bg-primary/10 text-primary text-xs px-3 py-1 font-medium"
-                        >
-                          {feature}
-                        </motion.span>
-                      ))}
-                    </div>
-
-                    <div>
-                      <Button variant="default" size="lg" className="group">
-                        Explore Product
-                        <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-                      </Button>
-                    </div>
-                  </motion.div>
-                </div>
+                {product.mockup}
               </motion.div>
-            );
-          })}
-        </motion.div>
+
+              {/* copy */}
+              <motion.div
+                custom={1}
+                variants={reveal}
+                initial="hidden"
+                animate={isInView ? 'visible' : 'hidden'}
+                className={product.reverse ? 'lg:order-1' : ''}
+              >
+                <p className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.25em] text-ink/50">
+                  <span
+                    aria-hidden="true"
+                    className="h-[5px] w-[5px] rotate-45 bg-gold"
+                  />
+                  {product.label}
+                </p>
+                <h3 className="mt-5 font-serif text-3xl font-light tracking-tight text-ink sm:text-4xl">
+                  {product.title}
+                </h3>
+                <p className="mt-5 max-w-md text-sm leading-relaxed text-ink/60 sm:text-base">
+                  {product.description}
+                </p>
+
+                <ul className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2">
+                  {product.features.map((feature, j) => (
+                    <li
+                      key={feature}
+                      className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.15em] text-ink/55 sm:text-[11px]"
+                    >
+                      {j > 0 && (
+                        <span
+                          aria-hidden="true"
+                          className="h-[4px] w-[4px] rotate-45 bg-gold/70"
+                        />
+                      )}
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document
+                      .querySelector('#contact')
+                      ?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="group mt-10 inline-flex items-center gap-2 text-sm font-medium text-ink underline-offset-8 hover:text-viridian"
+                >
+                  <span className="border-b border-ink/25 pb-0.5 transition-colors duration-300 group-hover:border-viridian">
+                    Explore product
+                  </span>
+                  <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
+                </a>
+              </motion.div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

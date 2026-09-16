@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,37 +20,35 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "IQAAN | Premium Software Development, SaaS & Product Solutions",
+  title: "IQAAN — Software, built with conviction.",
   description:
-    "IQAAN delivers world-class custom software development, SaaS platforms, and high-end product solutions. We transform visionary ideas into powerful digital products that drive growth and innovation.",
+    "IQAAN is a software & product studio. We design and engineer custom software, SaaS platforms, and products for companies that refuse to ship the ordinary.",
   keywords: [
     "IQAAN",
+    "software studio",
+    "product studio",
     "software development",
-    "SaaS",
-    "product solutions",
+    "SaaS platforms",
     "custom software",
-    "web development",
-    "mobile apps",
-    "cloud solutions",
-    "digital transformation",
+    "product engineering",
     "enterprise software",
   ],
   authors: [{ name: "IQAAN" }],
   icons: {
-    icon: "/favicon.ico",
+    icon: "/logo.svg",
   },
   openGraph: {
-    title: "IQAAN | Premium Software Development & SaaS Solutions",
+    title: "IQAAN — Software, built with conviction.",
     description:
-      "World-class custom software development, SaaS platforms, and high-end product solutions.",
+      "A software & product studio designing and engineering custom software, SaaS platforms, and products — for companies that refuse to ship the ordinary.",
     siteName: "IQAAN",
     type: "website",
   },
   twitter: {
-    card: "summary_large_image",
-    title: "IQAAN | Premium Software Development & SaaS Solutions",
+    card: "summary",
+    title: "IQAAN — Software, built with conviction.",
     description:
-      "World-class custom software development, SaaS platforms, and high-end product solutions.",
+      "A software & product studio designing and engineering custom software, SaaS platforms, and products.",
   },
 };
 
@@ -55,7 +60,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} font-sans antialiased bg-background text-foreground`}
       >
         {children}
       </body>

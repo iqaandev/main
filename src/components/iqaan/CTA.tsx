@@ -1,12 +1,30 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, Variants } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { ArrowRight, Send, MessageSquare } from 'lucide-react';
+import { ArrowRight, LoaderCircle } from 'lucide-react';
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const reveal: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.1, duration: 0.85, ease: EASE },
+  }),
+};
+
+/* minimal underlined fields — mono labels, hairline rules, quiet focus */
+const fieldClass =
+  'h-11 rounded-none border-0 border-b border-ink/25 bg-transparent px-0 shadow-none rounded-t-none text-base text-ink placeholder:text-ink/35 focus-visible:border-ink focus-visible:ring-0 focus-visible:ring-offset-0 md:text-sm';
+
+const labelClass =
+  'font-mono text-[10px] uppercase tracking-[0.2em] text-ink/55 sm:text-[11px]';
 
 export default function CTA() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -18,12 +36,13 @@ export default function CTA() {
     company: '',
     message: '',
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    setSubmitted(false);
     setFormData((prev) => ({
       ...prev,
       [e.target.id]: e.target.value,
@@ -39,224 +58,149 @@ export default function CTA() {
 
     setIsSubmitting(false);
     setFormData({ name: '', email: '', company: '', message: '' });
+    setSubmitted(true);
   };
 
   return (
     <section
       id="contact"
       ref={sectionRef}
-      className="relative overflow-hidden py-20 md:py-32"
+      aria-label="Contact"
+      className="scroll-mt-20 border-t border-ink/10 py-24 md:py-32"
     >
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-primary/5" />
-
-      {/* Decorative gradient orbs */}
-      <motion.div
-        className="pointer-events-none absolute -left-32 top-20 h-96 w-96 rounded-full bg-primary/20 blur-3xl"
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-        transition={{ duration: 1.2, ease: 'easeOut' }}
-      />
-      <motion.div
-        className="pointer-events-none absolute -right-32 top-40 h-80 w-80 rounded-full bg-emerald-500/15 blur-3xl"
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-        transition={{ duration: 1.2, ease: 'easeOut', delay: 0.2 }}
-      />
-      <motion.div
-        className="pointer-events-none absolute -bottom-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/15 blur-3xl"
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-        transition={{ duration: 1.2, ease: 'easeOut', delay: 0.4 }}
-      />
-
-      <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6">
-        {/* Hero CTA Block */}
-        <div className="mb-16 text-center md:mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-          >
-            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
-              <MessageSquare className="h-4 w-4" />
-              Get in Touch
-            </span>
-          </motion.div>
-
-          <motion.h2
-            className="mt-6 text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-5xl"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
-          >
-            Ready to Build Something{' '}
-            <span className="bg-gradient-to-r from-primary to-emerald-400 bg-clip-text text-transparent">
-              Extraordinary
-            </span>
-            ?
-          </motion.h2>
-
-          <motion.p
-            className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
-          >
-            Let&apos;s discuss how IQAAN can transform your ideas into powerful
-            digital solutions. Schedule a free consultation with our experts
-            today.
-          </motion.p>
-
-          <motion.div
-            className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.3 }}
-          >
-            <Button
-              size="lg"
-              className="min-w-[220px] gap-2 text-base shadow-lg shadow-primary/25 transition-shadow hover:shadow-xl hover:shadow-primary/30"
-            >
-              Schedule a Consultation
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="min-w-[220px] text-base transition-colors hover:bg-primary/10 hover:text-primary"
-            >
-              View Our Work
-            </Button>
-          </motion.div>
-        </div>
-
-        {/* Contact Form */}
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        {/* Statement */}
         <motion.div
-          className="relative rounded-2xl border border-border/50 bg-card/60 p-6 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-8 md:p-10"
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: 'easeOut', delay: 0.4 }}
+          custom={0}
+          variants={reveal}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          className="max-w-3xl"
         >
-          {/* Form decorative accent */}
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+          <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink/50">
+            06 — Start
+          </p>
+          <h2 className="mt-6 text-balance font-serif text-4xl font-light leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            Let&rsquo;s build something{' '}
+            <em className="italic text-viridian">worth believing in</em>.
+          </h2>
+          <p className="mt-6 max-w-xl text-sm leading-relaxed text-ink/60 sm:text-base">
+            Tell us what you&rsquo;re building. The first consultation is free,
+            and we reply to every message.
+          </p>
+        </motion.div>
 
-          <div className="mb-8 text-center">
-            <h3 className="text-xl font-semibold tracking-tight md:text-2xl">
-              Send Us a Message
-            </h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Fill out the form below and we&apos;ll get back to you within 24
-              hours.
-            </p>
-          </div>
+        {/* Form */}
+        <motion.div
+          custom={1}
+          variants={reveal}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          className="mt-16 max-w-2xl md:mt-20"
+        >
+          <h3 className="font-serif text-2xl font-normal tracking-tight text-ink sm:text-3xl">
+            Send a message
+          </h3>
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-ink/45 sm:text-[11px]">
+            We reply within 24 hours
+          </p>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="grid gap-5 sm:grid-cols-2">
-              {/* Name Field */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="name"
-                  className="text-sm font-medium text-muted-foreground"
-                >
-                  Full Name
+          <form onSubmit={handleSubmit} className="mt-10 space-y-10">
+            <div className="grid gap-10 sm:grid-cols-2">
+              <div className="space-y-2.5">
+                <Label htmlFor="name" className={labelClass}>
+                  Name
                 </Label>
                 <Input
                   id="name"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="Jane Cooper"
                   required
+                  autoComplete="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="border-border/50 bg-background/50 text-foreground placeholder:text-muted-foreground/50 focus-visible:ring-primary/50"
+                  className={fieldClass}
                 />
               </div>
 
-              {/* Email Field */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="email"
-                  className="text-sm font-medium text-muted-foreground"
-                >
-                  Email Address
+              <div className="space-y-2.5">
+                <Label htmlFor="email" className={labelClass}>
+                  Email
                 </Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="john@example.com"
+                  placeholder="jane@company.com"
                   required
+                  autoComplete="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="border-border/50 bg-background/50 text-foreground placeholder:text-muted-foreground/50 focus-visible:ring-primary/50"
+                  className={fieldClass}
                 />
               </div>
             </div>
 
-            {/* Company Field */}
-            <div className="space-y-2">
-              <Label
-                htmlFor="company"
-                className="text-sm font-medium text-muted-foreground"
-              >
+            <div className="space-y-2.5">
+              <Label htmlFor="company" className={labelClass}>
                 Company
               </Label>
               <Input
                 id="company"
                 type="text"
-                placeholder="Your Company Inc."
+                placeholder="Company Inc."
+                autoComplete="organization"
                 value={formData.company}
                 onChange={handleChange}
-                className="border-border/50 bg-background/50 text-foreground placeholder:text-muted-foreground/50 focus-visible:ring-primary/50"
+                className={fieldClass}
               />
             </div>
 
-            {/* Message Field */}
-            <div className="space-y-2">
-              <Label
-                htmlFor="message"
-                className="text-sm font-medium text-muted-foreground"
-              >
+            <div className="space-y-2.5">
+              <Label htmlFor="message" className={labelClass}>
                 Message
               </Label>
               <Textarea
                 id="message"
-                placeholder="Tell us about your project, goals, and timeline..."
+                placeholder="What are you building, and when does it need to ship?"
                 required
-                rows={5}
+                rows={4}
                 value={formData.message}
                 onChange={handleChange}
-                className="min-h-[120px] resize-none border-border/50 bg-background/50 text-foreground placeholder:text-muted-foreground/50 focus-visible:ring-primary/50"
+                className="min-h-[110px] resize-none rounded-none border-0 border-b border-ink/25 bg-transparent px-0 py-2 text-base shadow-none placeholder:text-ink/35 focus-visible:border-ink focus-visible:ring-0 md:text-sm"
               />
             </div>
 
-            {/* Submit Button */}
-            <div className="pt-2">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
               <Button
                 type="submit"
                 disabled={isSubmitting}
                 size="lg"
-                className="w-full gap-2 text-base shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:shadow-primary/30 disabled:opacity-70 sm:w-auto"
+                className="cursor-pointer rounded-full bg-viridian px-8 font-normal text-paper transition-colors duration-300 hover:bg-ink disabled:opacity-60"
               >
                 {isSubmitting ? (
                   <>
-                    <motion.span
-                      animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 1,
-                        repeat: Infinity,
-                        ease: 'linear',
-                      }}
-                      className="inline-block h-4 w-4 rounded-full border-2 border-current border-t-transparent"
-                    />
-                    Sending...
+                    Sending
+                    <LoaderCircle className="h-4 w-4 animate-spin" />
                   </>
                 ) : (
                   <>
-                    Send Message
-                    <Send className="h-4 w-4" />
+                    Send message
+                    <ArrowRight className="h-4 w-4" />
                   </>
                 )}
               </Button>
+
+              {submitted && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6 }}
+                  className="font-mono text-[11px] uppercase tracking-[0.15em] text-viridian"
+                  role="status"
+                >
+                  Thank you — we&rsquo;ll be in touch within 24 hours.
+                </motion.p>
+              )}
             </div>
           </form>
         </motion.div>

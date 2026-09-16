@@ -1,7 +1,5 @@
 'use client';
 
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import {
   Twitter,
   Linkedin,
@@ -39,140 +37,153 @@ const bottomLinks = ['Privacy Policy', 'Terms of Service', 'Cookie Policy'];
 
 export default function Footer() {
   return (
-    <footer className="bg-card/50 border-t border-border/50 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Footer Grid */}
-        <div className="py-12 md:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-          {/* Column 1 - Brand */}
-          <div className="space-y-6">
-            {/* Logo */}
-            <div className="text-2xl font-bold tracking-tight">
-              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+    <footer className="mt-auto bg-ink text-paper">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        {/* Main footer grid */}
+        <div className="grid grid-cols-1 gap-12 py-16 sm:grid-cols-2 md:py-20 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:gap-10">
+          {/* Brand */}
+          <div className="space-y-8">
+            <div>
+              <p className="font-serif text-3xl font-light tracking-tight text-paper">
                 IQAAN
-              </span>
-              <span className="text-muted-foreground">.com</span>
+                <span
+                  aria-hidden="true"
+                  className="ml-1.5 inline-block h-[8px] w-[8px] rotate-45 bg-gold align-[0.14em]"
+                />
+              </p>
+              <p lang="ar" dir="rtl" className="mt-3 text-lg text-gold-bright">
+                إيقان
+              </p>
             </div>
 
-            {/* Tagline */}
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
-              Building tomorrow&apos;s software, today.
+            <p className="max-w-xs text-sm leading-relaxed text-paper/60">
+              Software, built with conviction.
             </p>
 
-            {/* Social Icons */}
+            {/* Social — quiet hairline circles */}
             <div className="flex items-center gap-3">
               {socialLinks.map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="w-9 h-9 rounded-full bg-secondary hover:bg-primary/20 hover:text-primary flex items-center justify-center transition-all"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-paper/25 text-paper/70 transition-colors duration-300 hover:border-gold hover:text-gold"
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="h-4 w-4" />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Column 2 - Services */}
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">
+          {/* Services */}
+          <nav aria-label="Services">
+            <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-paper/45 sm:text-[11px]">
               Services
             </h3>
-            <ul className="space-y-3">
+            <ul className="mt-6 space-y-3.5">
               {serviceLinks.map((link) => (
                 <li key={link}>
                   <a
-                    href="#"
-                    className="text-muted-foreground text-sm hover:text-primary transition-colors"
+                    href="#services"
+                    className="text-sm text-paper/65 transition-colors duration-300 hover:text-gold"
                   >
                     {link}
                   </a>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Column 3 - Company */}
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">
+          {/* Company */}
+          <nav aria-label="Company">
+            <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-paper/45 sm:text-[11px]">
               Company
             </h3>
-            <ul className="space-y-3">
+            <ul className="mt-6 space-y-3.5">
               {companyLinks.map((link) => (
                 <li key={link}>
                   <a
-                    href="#"
-                    className="text-muted-foreground text-sm hover:text-primary transition-colors"
+                    href="#studio"
+                    className="text-sm text-paper/65 transition-colors duration-300 hover:text-gold"
                   >
                     {link}
                   </a>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Column 4 - Contact */}
-          <div className="space-y-6">
-            <h3 className="text-sm font-semibold uppercase tracking-wider">
-              Get in Touch
-            </h3>
+          {/* Contact + newsletter */}
+          <div className="space-y-10">
+            <div>
+              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-paper/45 sm:text-[11px]">
+                Contact
+              </h3>
+              <ul className="mt-6 space-y-3.5">
+                <li className="flex items-center gap-3 text-sm text-paper/65">
+                  <Mail className="h-3.5 w-3.5 shrink-0 text-gold" />
+                  <a
+                    href="mailto:hello@iqaan.com"
+                    className="transition-colors duration-300 hover:text-gold"
+                  >
+                    hello@iqaan.com
+                  </a>
+                </li>
+                <li className="flex items-center gap-3 text-sm text-paper/65">
+                  <Phone className="h-3.5 w-3.5 shrink-0 text-gold" />
+                  <a
+                    href="tel:+15551234567"
+                    className="transition-colors duration-300 hover:text-gold"
+                  >
+                    +1 (555) 123-4567
+                  </a>
+                </li>
+                <li className="flex items-center gap-3 text-sm text-paper/65">
+                  <MapPin className="h-3.5 w-3.5 shrink-0 text-gold" />
+                  <span>San Francisco, CA</span>
+                </li>
+              </ul>
+            </div>
 
-            <ul className="space-y-3">
-              <li className="flex items-center gap-3 text-muted-foreground text-sm">
-                <Mail className="w-4 h-4 shrink-0 text-primary/70" />
-                <a
-                  href="mailto:hello@iqaan.com"
-                  className="hover:text-primary transition-colors"
-                >
-                  hello@iqaan.com
-                </a>
-              </li>
-              <li className="flex items-center gap-3 text-muted-foreground text-sm">
-                <Phone className="w-4 h-4 shrink-0 text-primary/70" />
-                <a
-                  href="tel:+15551234567"
-                  className="hover:text-primary transition-colors"
-                >
-                  +1 (555) 123-4567
-                </a>
-              </li>
-              <li className="flex items-start gap-3 text-muted-foreground text-sm">
-                <MapPin className="w-4 h-4 shrink-0 text-primary/70 mt-0.5" />
-                <span>San Francisco, CA</span>
-              </li>
-            </ul>
-
-            {/* Newsletter Signup */}
-            <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">
-                Subscribe to our newsletter
-              </p>
-              <div className="flex gap-2">
-                <Input
+            {/* Newsletter */}
+            <div>
+              <label
+                htmlFor="newsletter-email"
+                className="font-mono text-[10px] uppercase tracking-[0.25em] text-paper/45 sm:text-[11px]"
+              >
+                Newsletter
+              </label>
+              <form
+                className="mt-4 flex items-end gap-3"
+                onSubmit={(e) => e.preventDefault()}
+              >
+                <input
+                  id="newsletter-email"
                   type="email"
                   placeholder="your@email.com"
-                  className="bg-background border border-border rounded-lg h-9 text-sm placeholder:text-muted-foreground/60"
+                  className="w-full border-b border-paper/25 bg-transparent py-2 text-sm text-paper outline-none transition-colors placeholder:text-paper/35 focus:border-gold"
                 />
-                <Button
-                  size="sm"
-                  className="h-9 px-3 shrink-0 rounded-lg"
+                <button
+                  type="submit"
+                  aria-label="Subscribe to newsletter"
+                  className="group flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-paper/25 text-paper/70 transition-colors duration-300 hover:border-gold hover:text-gold"
                 >
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-              </div>
+                  <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-0.5" />
+                </button>
+              </form>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-border/50 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>&copy; 2025 IQAAN.com. All rights reserved.</p>
-          <div className="flex items-center gap-4">
+        {/* Bottom bar */}
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-paper/15 py-7 font-mono text-[10px] uppercase tracking-[0.18em] text-paper/45 sm:flex-row sm:text-[11px]">
+          <p>&copy; 2026 IQAAN — All rights reserved</p>
+          <div className="flex items-center gap-6">
             {bottomLinks.map((link) => (
               <a
                 key={link}
                 href="#"
-                className="hover:text-primary transition-colors"
+                className="transition-colors duration-300 hover:text-gold"
               >
                 {link}
               </a>
