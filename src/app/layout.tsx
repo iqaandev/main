@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import {
+  Amiri,
+  Fraunces,
+  Geist,
+  Geist_Mono,
+  IBM_Plex_Sans_Arabic,
+} from "next/font/google";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -17,6 +23,21 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+/* Arabic faces — calligraphic Naskh for display, Plex for body/UI.
+   Arabic-only subsets give correct per-glyph fallback in the composite
+   stacks: Arabic glyphs render Amiri/Plex, Latin stays Fraunces/Geist. */
+const amiri = Amiri({
+  variable: "--font-amiri",
+  subsets: ["arabic"],
+  weight: ["400", "700"],
+});
+
+const plexArabic = IBM_Plex_Sans_Arabic({
+  variable: "--font-plex-arabic",
+  subsets: ["arabic"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -58,9 +79,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${amiri.variable} ${plexArabic.variable} font-sans antialiased bg-background text-foreground`}
       >
         {children}
       </body>

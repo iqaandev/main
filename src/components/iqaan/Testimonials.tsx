@@ -3,36 +3,9 @@
 import { useRef } from 'react';
 import { motion, useInView, Variants } from 'framer-motion';
 import { Star } from 'lucide-react';
+import { useLocale } from '@/i18n/LocaleProvider';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
-const featured = {
-  name: 'Sarah Chen',
-  title: 'CTO of TechVenture',
-  initials: 'SC',
-  rating: 5,
-  quote:
-    'IQAAN transformed our legacy systems into a modern, scalable platform. The new system handles 10x our previous load with zero downtime.',
-};
-
-const testimonials = [
-  {
-    name: 'Marcus Rodriguez',
-    title: 'CEO of DataSphere',
-    initials: 'MR',
-    rating: 5,
-    quote:
-      'The best decision we made. On time, on budget, outstanding quality — our user base grew 300% in the first quarter after launch.',
-  },
-  {
-    name: 'Emily Watson',
-    title: 'VP Engineering at CloudNine',
-    initials: 'EW',
-    rating: 5,
-    quote:
-      "IQAAN doesn't just write code — they become true partners in your success. Their product thinking helped us avoid costly mistakes and ship faster.",
-  },
-];
 
 const reveal: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -43,12 +16,12 @@ const reveal: Variants = {
   }),
 };
 
-function Stars({ count }: { count: number }) {
+function Stars({ count, label }: { count: number; label: string }) {
   return (
     <div
       className="flex items-center gap-1"
       role="img"
-      aria-label={`${count} out of 5 stars`}
+      aria-label={label}
     >
       {Array.from({ length: count }).map((_, i) => (
         <Star
@@ -74,15 +47,18 @@ function Monogram({ initials }: { initials: string }) {
 }
 
 export default function Testimonials() {
+  const { t } = useLocale();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   const visible = isInView ? 'visible' : 'hidden';
+  const heading = t.testimonials.heading;
+  const featured = t.testimonials.featured;
 
   return (
     <section
       ref={sectionRef}
-      aria-label="Client voices"
+      aria-label={t.testimonials.ariaLabel}
       className="border-t border-ink/10 py-24 md:py-32"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -93,10 +69,12 @@ export default function Testimonials() {
           transition={{ duration: 0.8, ease: EASE }}
         >
           <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink/50">
-            05 — Client voices
+            {t.testimonials.eyebrow}
           </p>
           <h2 className="mt-6 text-balance font-serif text-4xl font-light leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-            In their <em className="italic text-viridian">words</em>.
+            {heading.lead}
+            <em className="italic text-viridian">{heading.accent}</em>
+            {heading.tail}
           </h2>
         </motion.div>
 
@@ -108,12 +86,15 @@ export default function Testimonials() {
           animate={visible}
           className="mt-16 border-b border-ink/10 pb-16 md:mt-20 md:pb-20"
         >
-          <Stars count={featured.rating} />
+          <Stars
+            count={5}
+            label={t.testimonials.starsAria(5)}
+          />
           <blockquote className="mt-8 max-w-4xl">
             <p className="text-balance font-serif text-2xl font-light leading-[1.25] tracking-tight text-ink sm:text-3xl lg:text-4xl">
               <span
                 aria-hidden="true"
-                className="mr-2 align-top font-serif text-gold"
+                className="me-2 align-top font-serif text-gold"
               >
                 &ldquo;
               </span>
@@ -136,27 +117,30 @@ export default function Testimonials() {
 
         {/* Two quieter cards */}
         <div className="grid gap-8 pt-16 md:grid-cols-2 md:gap-12 md:pt-20">
-          {testimonials.map((t, i) => (
+          {t.testimonials.items.map((testimonial, i) => (
             <motion.figure
-              key={t.name}
+              key={testimonial.name}
               custom={i + 1}
               variants={reveal}
               initial="hidden"
               animate={visible}
               className="rounded-sm border border-ink/10 bg-card p-8 md:p-10"
             >
-              <Stars count={t.rating} />
+              <Stars
+                count={5}
+                label={t.testimonials.starsAria(5)}
+              />
               <blockquote className="mt-6">
                 <p className="font-serif text-lg font-light leading-relaxed text-ink/90 sm:text-xl">
-                  &ldquo;{t.quote}&rdquo;
+                  &ldquo;{testimonial.quote}&rdquo;
                 </p>
               </blockquote>
               <figcaption className="mt-8 flex items-center gap-4 border-t border-ink/10 pt-6">
-                <Monogram initials={t.initials} />
+                <Monogram initials={testimonial.initials} />
                 <div>
-                  <p className="font-medium text-ink">{t.name}</p>
+                  <p className="font-medium text-ink">{testimonial.name}</p>
                   <p className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-ink/50">
-                    {t.title}
+                    {testimonial.title}
                   </p>
                 </div>
               </figcaption>

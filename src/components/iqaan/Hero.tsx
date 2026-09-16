@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { motion, useInView, Variants } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Sparkle } from 'lucide-react';
+import { useLocale } from '@/i18n/LocaleProvider';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -16,17 +17,23 @@ const rise: Variants = {
   }),
 };
 
+function scrollTo(selector: string) {
+  document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth' });
+}
+
 export default function Hero() {
+  const { t } = useLocale();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
 
   const visible = isInView ? 'visible' : 'hidden';
+  const title = t.hero.title;
 
   return (
     <section
       id="top"
       ref={sectionRef}
-      aria-label="Introduction"
+      aria-label={t.hero.ariaLabel}
       className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-6 pb-28 pt-32 text-center"
     >
       {/* faint hairline frame — a quiet nod to the printed page */}
@@ -58,7 +65,7 @@ export default function Hero() {
           animate={visible}
           className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink/50 sm:text-xs"
         >
-          Software &amp; Product Studio
+          {t.hero.eyebrow}
         </motion.p>
 
         {/* headline */}
@@ -69,17 +76,21 @@ export default function Hero() {
           animate={visible}
           className="mt-8 text-balance font-serif text-[clamp(3rem,8vw,6.5rem)] font-light leading-[1.02] tracking-tight text-ink"
         >
-          Software, built
-          <br />
-          with{' '}
+          {title.pre ? (
+            <>
+              {title.pre}
+              <br />
+            </>
+          ) : null}
+          {title.mid ? `${title.mid} ` : null}
           <em className="relative inline-block italic text-viridian">
-            conviction
+            {title.accent}
             <span
               aria-hidden="true"
-              className="absolute -bottom-1 left-0 h-px w-full -rotate-1 bg-gold sm:-bottom-2"
+              className="absolute -bottom-1 start-0 h-px w-full -rotate-1 bg-gold sm:-bottom-2"
             />
           </em>
-          .
+          {title.post}
         </motion.h1>
 
         {/* subline */}
@@ -90,8 +101,7 @@ export default function Hero() {
           animate={visible}
           className="mx-auto mt-8 max-w-xl text-balance text-base leading-relaxed text-ink/65 sm:text-lg"
         >
-          IQAAN designs and engineers custom software, SaaS platforms, and
-          products — for companies that refuse to ship the ordinary.
+          {t.hero.sub}
         </motion.p>
 
         {/* calls to action */}
@@ -105,30 +115,24 @@ export default function Hero() {
           <Button
             size="lg"
             className="min-w-[220px] cursor-pointer rounded-full bg-viridian px-8 font-normal text-paper transition-colors duration-300 hover:bg-ink"
-            onClick={() => {
-              document
-                .querySelector('#contact')
-                ?.scrollIntoView({ behavior: 'smooth' });
-            }}
+            onClick={() => scrollTo('#contact')}
           >
-            Start your project
-            <ArrowRight className="h-4 w-4" />
+            {t.hero.ctaPrimary}
+            <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
           </Button>
 
           <a
             href="#services"
             onClick={(e) => {
               e.preventDefault();
-              document
-                .querySelector('#services')
-                ?.scrollIntoView({ behavior: 'smooth' });
+              scrollTo('#services');
             }}
             className="group relative py-2 text-sm font-medium text-ink underline-offset-8 hover:text-viridian"
           >
-            Explore services
+            {t.hero.ctaSecondary}
             <span
               aria-hidden="true"
-              className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-100 bg-ink/30 transition-colors duration-300 group-hover:bg-viridian"
+              className="absolute bottom-0 start-0 h-px w-full origin-start bg-ink/30 transition-colors duration-300 group-hover:bg-viridian"
             />
           </a>
         </motion.div>
@@ -143,7 +147,7 @@ export default function Hero() {
         >
           <span aria-hidden="true" className="h-px w-10 bg-ink/20 sm:w-16" />
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink/50 sm:text-[11px]">
-            Trusted by teams on four continents &middot; Free consultation
+            {t.hero.trust}
           </p>
           <span aria-hidden="true" className="h-px w-10 bg-ink/20 sm:w-16" />
         </motion.div>

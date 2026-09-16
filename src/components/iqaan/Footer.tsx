@@ -9,6 +9,7 @@ import {
   Phone,
   ArrowRight,
 } from 'lucide-react';
+import { useLocale } from '@/i18n/LocaleProvider';
 
 const socialLinks = [
   { icon: Twitter, href: '#', label: 'Twitter' },
@@ -17,25 +18,49 @@ const socialLinks = [
   { icon: Mail, href: 'mailto:hello@iqaan.com', label: 'Email' },
 ];
 
-const serviceLinks = [
-  'Custom Development',
-  'SaaS Solutions',
-  'Product Engineering',
-  'Cloud Services',
-  'Consulting',
-];
+function GoldDiamond({ className = '' }: { className?: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`inline-block h-[8px] w-[8px] rotate-45 bg-gold ${className}`}
+    />
+  );
+}
 
-const companyLinks = [
-  'About Us',
-  'Careers',
-  'Blog',
-  'Case Studies',
-  'Contact',
-];
+function BrandLockup() {
+  const { locale, t } = useLocale();
 
-const bottomLinks = ['Privacy Policy', 'Terms of Service', 'Cookie Policy'];
+  if (locale === 'ar') {
+    /* Bilingual lockup — إيقان large in Amiri, IQAAN in mono beneath */
+    return (
+      <div className="space-y-3">
+        <p lang="ar" className="font-serif text-4xl font-bold leading-none text-paper">
+          إيقان
+          <GoldDiamond className="ms-2 align-[0.1em]" />
+        </p>
+        <p dir="ltr" className="font-mono text-[11px] uppercase tracking-[0.3em] text-paper/50">
+          {t.footer.brandLatin}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      <p className="font-serif text-3xl font-light tracking-tight text-paper">
+        IQAAN
+        <GoldDiamond className="ms-1.5 align-[0.14em]" />
+      </p>
+      <p lang="ar" dir="rtl" className="font-serif text-lg leading-none text-gold-bright">
+        إيقان
+      </p>
+    </div>
+  );
+}
 
 export default function Footer() {
+  const { t } = useLocale();
+
   return (
     <footer className="mt-auto bg-ink text-paper">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -43,21 +68,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-12 py-16 sm:grid-cols-2 md:py-20 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:gap-10">
           {/* Brand */}
           <div className="space-y-8">
-            <div>
-              <p className="font-serif text-3xl font-light tracking-tight text-paper">
-                IQAAN
-                <span
-                  aria-hidden="true"
-                  className="ml-1.5 inline-block h-[8px] w-[8px] rotate-45 bg-gold align-[0.14em]"
-                />
-              </p>
-              <p lang="ar" dir="rtl" className="mt-3 text-lg text-gold-bright">
-                إيقان
-              </p>
-            </div>
+            <BrandLockup />
 
             <p className="max-w-xs text-sm leading-relaxed text-paper/60">
-              Software, built with conviction.
+              {t.footer.tagline}
             </p>
 
             {/* Social — quiet hairline circles */}
@@ -76,12 +90,12 @@ export default function Footer() {
           </div>
 
           {/* Services */}
-          <nav aria-label="Services">
+          <nav aria-label={t.footer.columns.services}>
             <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-paper/45 sm:text-[11px]">
-              Services
+              {t.footer.columns.services}
             </h3>
             <ul className="mt-6 space-y-3.5">
-              {serviceLinks.map((link) => (
+              {t.footer.serviceLinks.map((link) => (
                 <li key={link}>
                   <a
                     href="#services"
@@ -95,12 +109,12 @@ export default function Footer() {
           </nav>
 
           {/* Company */}
-          <nav aria-label="Company">
+          <nav aria-label={t.footer.columns.company}>
             <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-paper/45 sm:text-[11px]">
-              Company
+              {t.footer.columns.company}
             </h3>
             <ul className="mt-6 space-y-3.5">
-              {companyLinks.map((link) => (
+              {t.footer.companyLinks.map((link) => (
                 <li key={link}>
                   <a
                     href="#studio"
@@ -117,30 +131,32 @@ export default function Footer() {
           <div className="space-y-10">
             <div>
               <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-paper/45 sm:text-[11px]">
-                Contact
+                {t.footer.columns.contact}
               </h3>
               <ul className="mt-6 space-y-3.5">
                 <li className="flex items-center gap-3 text-sm text-paper/65">
                   <Mail className="h-3.5 w-3.5 shrink-0 text-gold" />
                   <a
                     href="mailto:hello@iqaan.com"
+                    dir="ltr"
                     className="transition-colors duration-300 hover:text-gold"
                   >
-                    hello@iqaan.com
+                    {t.footer.contact.email}
                   </a>
                 </li>
                 <li className="flex items-center gap-3 text-sm text-paper/65">
                   <Phone className="h-3.5 w-3.5 shrink-0 text-gold" />
                   <a
                     href="tel:+15551234567"
+                    dir="ltr"
                     className="transition-colors duration-300 hover:text-gold"
                   >
-                    +1 (555) 123-4567
+                    {t.footer.contact.phone}
                   </a>
                 </li>
                 <li className="flex items-center gap-3 text-sm text-paper/65">
                   <MapPin className="h-3.5 w-3.5 shrink-0 text-gold" />
-                  <span>San Francisco, CA</span>
+                  <span>{t.footer.contact.location}</span>
                 </li>
               </ul>
             </div>
@@ -151,7 +167,7 @@ export default function Footer() {
                 htmlFor="newsletter-email"
                 className="font-mono text-[10px] uppercase tracking-[0.25em] text-paper/45 sm:text-[11px]"
               >
-                Newsletter
+                {t.footer.newsletter}
               </label>
               <form
                 className="mt-4 flex items-end gap-3"
@@ -161,14 +177,15 @@ export default function Footer() {
                   id="newsletter-email"
                   type="email"
                   placeholder="your@email.com"
+                  dir="ltr"
                   className="w-full border-b border-paper/25 bg-transparent py-2 text-sm text-paper outline-none transition-colors placeholder:text-paper/35 focus:border-gold"
                 />
                 <button
                   type="submit"
-                  aria-label="Subscribe to newsletter"
+                  aria-label={t.footer.newsletterAria}
                   className="group flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-paper/25 text-paper/70 transition-colors duration-300 hover:border-gold hover:text-gold"
                 >
-                  <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-0.5" />
+                  <ArrowRight className="slide-x h-4 w-4 transition-[transform,color] duration-500" />
                 </button>
               </form>
             </div>
@@ -177,9 +194,9 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="flex flex-col items-center justify-between gap-4 border-t border-paper/15 py-7 font-mono text-[10px] uppercase tracking-[0.18em] text-paper/45 sm:flex-row sm:text-[11px]">
-          <p>&copy; 2026 IQAAN — All rights reserved</p>
-          <div className="flex items-center gap-6">
-            {bottomLinks.map((link) => (
+          <p>{t.footer.copyright}</p>
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            {t.footer.bottomLinks.map((link) => (
               <a
                 key={link}
                 href="#"

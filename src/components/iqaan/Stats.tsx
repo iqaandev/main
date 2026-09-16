@@ -2,29 +2,30 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useLocale } from '@/i18n/LocaleProvider';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 interface StatItem {
   value: number;
   suffix: string;
-  label: string;
   decimals: number;
 }
 
+/* Western digits in both locales — standard in premium Gulf tech marketing */
 const stats: StatItem[] = [
-  { value: 500, suffix: '+', label: 'Projects Delivered', decimals: 0 },
-  { value: 200, suffix: '+', label: 'Global Clients', decimals: 0 },
-  { value: 99.9, suffix: '%', label: 'Uptime Guarantee', decimals: 1 },
-  { value: 50, suffix: '+', label: 'Expert Engineers', decimals: 0 },
+  { value: 500, suffix: '+', decimals: 0 },
+  { value: 200, suffix: '+', decimals: 0 },
+  { value: 99.9, suffix: '%', decimals: 1 },
+  { value: 50, suffix: '+', decimals: 0 },
 ];
 
-/* responsive hairline dividers for the 2×2 → 1×4 stat grid */
+/* responsive hairline dividers for the 2×2 → 1×4 stat grid (logical) */
 const cellBorders = [
   '',
-  'border-l border-ink/10',
-  'border-t border-ink/10 lg:border-l lg:border-t-0',
-  'border-l border-t border-ink/10 lg:border-t-0',
+  'border-s border-ink/10',
+  'border-t border-ink/10 lg:border-s lg:border-t-0',
+  'border-s border-t border-ink/10 lg:border-t-0',
 ];
 
 function useCountUp(
@@ -69,7 +70,15 @@ function useCountUp(
   return count;
 }
 
-function StatCell({ stat, index }: { stat: StatItem; index: number }) {
+function StatCell({
+  stat,
+  label,
+  index,
+}: {
+  stat: StatItem;
+  label: string;
+  index: number;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
   const count = useCountUp(stat.value, isInView, 2000, stat.decimals);
@@ -87,20 +96,21 @@ function StatCell({ stat, index }: { stat: StatItem; index: number }) {
         <span className="text-viridian">{stat.suffix}</span>
       </p>
       <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.22em] text-ink/50 sm:text-[11px]">
-        {stat.label}
+        {label}
       </p>
     </motion.div>
   );
 }
 
 export default function Stats() {
+  const { t } = useLocale();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   return (
     <section
       ref={sectionRef}
-      aria-label="Studio statistics"
+      aria-label={t.stats.ariaLabel}
       className="py-20 md:py-28"
     >
       <motion.div
@@ -111,7 +121,12 @@ export default function Stats() {
       >
         <div className="grid grid-cols-2 border-y border-ink/10 lg:grid-cols-4">
           {stats.map((stat, index) => (
-            <StatCell key={stat.label} stat={stat} index={index} />
+            <StatCell
+              key={t.stats.labels[index]}
+              stat={stat}
+              label={t.stats.labels[index]}
+              index={index}
+            />
           ))}
         </div>
       </motion.div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useLocale } from '@/i18n/LocaleProvider';
 
 const companies = [
   'TechVenture',
@@ -27,10 +28,11 @@ function Diamond() {
 }
 
 export default function TrustedBy() {
+  const { t } = useLocale();
   const names = [...companies, ...companies];
 
   return (
-    <section aria-label="Trusted by" className="border-t border-ink/10 py-14 md:py-16">
+    <section aria-label={t.trustedBy.ariaLabel} className="border-t border-ink/10 py-14 md:py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.p
           initial={{ opacity: 0 }}
@@ -39,7 +41,7 @@ export default function TrustedBy() {
           transition={{ duration: 0.8, ease: EASE }}
           className="text-center font-mono text-[10px] uppercase tracking-[0.25em] text-ink/45 sm:text-[11px]"
         >
-          Trusted by teams at
+          {t.trustedBy.eyebrow}
         </motion.p>
 
         <motion.div
@@ -49,7 +51,9 @@ export default function TrustedBy() {
           transition={{ duration: 0.9, delay: 0.2, ease: EASE }}
           className="mask-fade-x mt-8 overflow-hidden"
         >
-          <div className="flex w-max animate-marquee items-center motion-reduce:animate-none">
+          {/* Latin client names — track kept LTR so the marquee physics and
+              name order are identical in both locales */}
+          <div dir="ltr" className="flex w-max animate-marquee items-center motion-reduce:animate-none">
             {names.map((name, index) => (
               <span key={`${name}-${index}`} className="flex items-center">
                 <span className="select-none whitespace-nowrap font-serif text-xl font-normal tracking-tight text-ink/60 md:text-2xl">

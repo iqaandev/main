@@ -11,23 +11,26 @@ import Process from '@/components/iqaan/Process'
 import Testimonials from '@/components/iqaan/Testimonials'
 import CTA from '@/components/iqaan/CTA'
 import Footer from '@/components/iqaan/Footer'
+import { LocaleProvider } from '@/i18n/LocaleProvider'
 
 export default function Home() {
   return (
-    <div className="paper-grain min-h-screen flex flex-col">
-      <Navbar />
-      <main className="flex-1">
-        <Hero />
-        <TrustedBy />
-        <Services />
-        <Products />
-        <Manifesto />
-        <Stats />
-        <Process />
-        <Testimonials />
-        <CTA />
-      </main>
-      <Footer />
-    </div>
+    <LocaleProvider>
+      <div className="paper-grain min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1">
+          <Hero />
+          <TrustedBy />
+          <Services />
+          <Products />
+          <Manifesto />
+          <Stats />
+          <Process />
+          <Testimonials />
+          <CTA />
+        </main>
+        <Footer />
+      </div>
+    </LocaleProvider>
   )
 }

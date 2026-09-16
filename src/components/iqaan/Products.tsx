@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { motion, useInView, Variants } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { useLocale } from '@/i18n/LocaleProvider';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -30,7 +31,7 @@ function AnalyticsMockup() {
           <span className="h-2 w-2 rounded-full bg-ink/15" />
           <span className="h-2 w-2 rounded-full bg-ink/15" />
           <span className="h-2 w-2 rounded-full bg-ink/15" />
-          <span className="ml-3 h-3.5 flex-1 rounded-full bg-ink/[0.05]" />
+          <span className="ms-3 h-3.5 flex-1 rounded-full bg-ink/[0.05]" />
         </div>
 
         {/* chart body */}
@@ -122,7 +123,7 @@ function CloudOpsMockup() {
           <span className="h-2 w-2 rounded-full bg-ink/15" />
           <span className="h-2 w-2 rounded-full bg-ink/15" />
           <span className="h-2 w-2 rounded-full bg-ink/15" />
-          <span className="ml-3 h-3.5 flex-1 rounded-full bg-ink/[0.05]" />
+          <span className="ms-3 h-3.5 flex-1 rounded-full bg-ink/[0.05]" />
         </div>
 
         {/* topology body */}
@@ -208,36 +209,20 @@ function CloudOpsMockup() {
   );
 }
 
-const products = [
-  {
-    label: 'Venture 01',
-    title: 'IQAAN Analytics Pro',
-    description:
-      'Enterprise analytics that turns raw data into decisions — real-time dashboards, AI-powered predictions, and reporting on autopilot.',
-    features: ['Real-time Dashboards', 'AI Predictions', 'Custom Reports', 'Data Pipeline'],
-    mockup: <AnalyticsMockup />,
-    reverse: false,
-  },
-  {
-    label: 'Venture 02',
-    title: 'IQAAN CloudOps',
-    description:
-      'One plane of glass for your cloud — infrastructure, deployments, cost, and security across every environment you run.',
-    features: ['Auto Scaling', 'Cost Optimization', 'Multi-cloud Support', 'Security Compliance'],
-    mockup: <CloudOpsMockup />,
-    reverse: true,
-  },
-];
+const mockups = [<AnalyticsMockup key="analytics" />, <CloudOpsMockup key="cloudops" />];
 
 export default function Products() {
+  const { t } = useLocale();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+
+  const heading = t.products.heading;
 
   return (
     <section
       id="products"
       ref={sectionRef}
-      aria-label="Products"
+      aria-label={t.products.ariaLabel}
       className="scroll-mt-20 border-t border-ink/10 py-24 md:py-32"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -248,16 +233,23 @@ export default function Products() {
           transition={{ duration: 0.8, ease: EASE }}
         >
           <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink/50">
-            02 — Products
+            {t.products.eyebrow}
           </p>
           <h2 className="mt-6 text-balance font-serif text-4xl font-light leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-            Products &amp; <em className="italic text-viridian">ventures</em>.
+            {heading.lead}
+            <em className="italic text-viridian">{heading.accent}</em>
+            {heading.tail}
           </h2>
+          {t.products.intro ? (
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-ink/60 sm:text-base">
+              {t.products.intro}
+            </p>
+          ) : null}
         </motion.div>
 
         {/* Product splits */}
         <div className="mt-16 space-y-24 md:mt-24 md:space-y-32">
-          {products.map((product, i) => (
+          {t.products.items.map((product, i) => (
             <div
               key={product.title}
               className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20"
@@ -268,9 +260,9 @@ export default function Products() {
                 variants={reveal}
                 initial="hidden"
                 animate={isInView ? 'visible' : 'hidden'}
-                className={product.reverse ? 'lg:order-2' : ''}
+                className={i % 2 === 1 ? 'lg:order-2' : ''}
               >
-                {product.mockup}
+                {mockups[i]}
               </motion.div>
 
               {/* copy */}
@@ -279,7 +271,7 @@ export default function Products() {
                 variants={reveal}
                 initial="hidden"
                 animate={isInView ? 'visible' : 'hidden'}
-                className={product.reverse ? 'lg:order-1' : ''}
+                className={i % 2 === 1 ? 'lg:order-1' : ''}
               >
                 <p className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.25em] text-ink/50">
                   <span
@@ -323,9 +315,9 @@ export default function Products() {
                   className="group mt-10 inline-flex items-center gap-2 text-sm font-medium text-ink underline-offset-8 hover:text-viridian"
                 >
                   <span className="border-b border-ink/25 pb-0.5 transition-colors duration-300 group-hover:border-viridian">
-                    Explore product
+                    {t.products.explore}
                   </span>
-                  <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
+                  <ArrowRight className="slide-x h-4 w-4 transition-[transform,color] duration-500" />
                 </a>
               </motion.div>
             </div>

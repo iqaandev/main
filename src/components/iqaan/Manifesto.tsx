@@ -2,23 +2,9 @@
 
 import { useRef } from 'react';
 import { motion, useInView, Variants } from 'framer-motion';
+import { useLocale } from '@/i18n/LocaleProvider';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
-const principles = [
-  {
-    title: 'Precision over pace',
-    line: 'We would rather ship it right than ship it first. Deadlines serve the work.',
-  },
-  {
-    title: 'Design is not decoration',
-    line: 'Structure, flow, and clarity are designed from the first commit — never applied at the end.',
-  },
-  {
-    title: 'Own the outcome',
-    line: 'Accountability does not end at launch. We answer to the numbers, and to the people behind them.',
-  },
-];
 
 const reveal: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -30,16 +16,18 @@ const reveal: Variants = {
 };
 
 export default function Manifesto() {
+  const { t } = useLocale();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   const visible = isInView ? 'visible' : 'hidden';
+  const statement = t.manifesto.statement;
 
   return (
     <section
       id="studio"
       ref={sectionRef}
-      aria-label="The IQAAN Standard"
+      aria-label={t.manifesto.ariaLabel}
       className="scroll-mt-20 bg-ink-deep py-28 text-paper md:py-36"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -53,7 +41,7 @@ export default function Manifesto() {
               animate={visible}
               className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold-bright"
             >
-              03 — The IQAAN Standard
+              {t.manifesto.eyebrow}
             </motion.p>
 
             <motion.h2
@@ -63,14 +51,14 @@ export default function Manifesto() {
               animate={visible}
               className="mt-8 max-w-4xl text-balance font-serif text-3xl font-light leading-[1.15] tracking-tight text-paper sm:text-4xl lg:text-[3.4rem] lg:leading-[1.08]"
             >
-              We believe software is a craft. Every decision — architectural,
-              visual, human — is made with{' '}
-              <em className="italic text-gold-bright">conviction</em>, or not
-              at all.
+              {statement.lead}
+              <em className="italic text-gold-bright">{statement.accent}</em>
+              {statement.tail}
             </motion.h2>
           </div>
 
-          {/* Arabic wordmark — heritage mark, gold */}
+          {/* Arabic wordmark — heritage mark, gold. Native in AR mode;
+              under EN it carries the Latin gloss beneath. */}
           <motion.div
             custom={2}
             variants={reveal}
@@ -81,7 +69,7 @@ export default function Manifesto() {
             <span
               lang="ar"
               dir="rtl"
-              className="text-3xl leading-none text-gold-bright sm:text-4xl"
+              className="font-serif text-3xl leading-none text-gold-bright sm:text-4xl"
             >
               إيقان
             </span>
@@ -89,17 +77,17 @@ export default function Manifesto() {
               aria-hidden="true"
               className="h-10 w-px bg-paper/20"
             />
-            <p className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.2em] text-paper/50">
-              iʿqān
+            <p dir="ltr" className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.2em] text-paper/50">
+              {t.manifesto.glossTop}
               <br />
-              deep conviction
+              {t.manifesto.glossBottom}
             </p>
           </motion.div>
         </div>
 
         {/* principles — hairline grid */}
         <div className="mt-16 grid gap-10 sm:grid-cols-3 md:mt-24 md:gap-12">
-          {principles.map((principle, i) => (
+          {t.manifesto.principles.map((principle, i) => (
             <motion.div
               key={principle.title}
               custom={i + 1}
