@@ -20,6 +20,8 @@ export interface ToolFaq {
 export interface Tool {
   /** URL slug under /tools/ */
   slug: string;
+  /** Slugs of related tools surfaced as cross-links on the tool page */
+  related: string[];
   /** Display name — also the H1 and the <title> lead */
   name: string;
   /** One-sentence subtitle under the H1, and the hub row description */
@@ -38,6 +40,7 @@ export const SITE_URL = 'https://iqaan.com';
 export const tools: Tool[] = [
   {
     slug: 'json-formatter',
+    related: ['csv-converter', 'base64', 'jwt-decoder'],
     name: 'JSON Formatter',
     short: 'Format, minify, and validate JSON with syntax highlighting and instant error pinpointing.',
     description:
@@ -69,6 +72,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'base64',
+    related: ['jwt-decoder', 'hash-generator', 'json-formatter'],
     name: 'Base64 Encoder / Decoder',
     short: 'Encode and decode Base64 bidirectionally — UTF-8 safe, URL-safe alphabet, files included.',
     description:
@@ -100,6 +104,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'jwt-decoder',
+    related: ['base64', 'hash-generator', 'timestamp-converter'],
     name: 'JWT Decoder',
     short: 'Decode JSON Web Token headers and payloads, with exp/iat/nbf status badges and readable timestamps.',
     description:
@@ -131,6 +136,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'cron-explainer',
+    related: ['timestamp-converter', 'regex-tester', 'uuid-generator'],
     name: 'Cron Expression Explainer',
     short: 'Translate cron expressions into plain English with live validation and the next five run times.',
     description:
@@ -162,6 +168,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'regex-tester',
+    related: ['cron-explainer', 'json-formatter', 'csv-converter'],
     name: 'Regex Tester',
     short: 'Test regular expressions live with match highlighting, capture-group tables, and a syntax cheatsheet.',
     description:
@@ -193,6 +200,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'uuid-generator',
+    related: ['hash-generator', 'timestamp-converter', 'base64'],
     name: 'UUID Generator',
     short: 'Generate RFC-compliant UUID v4 and v7 identifiers in bulk, with per-item and copy-all export.',
     description:
@@ -224,6 +232,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'timestamp-converter',
+    related: ['cron-explainer', 'uuid-generator', 'jwt-decoder'],
     name: 'Unix Timestamp Converter',
     short: 'Convert unix timestamps, ISO 8601 strings, and human dates in lockstep, with a live now ticker.',
     description:
@@ -255,6 +264,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'hash-generator',
+    related: ['base64', 'uuid-generator', 'jwt-decoder'],
     name: 'Hash Generator',
     short: 'Compute SHA-1, SHA-256, SHA-384, and SHA-512 digests of text or files simultaneously.',
     description:
@@ -286,6 +296,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'color-studio',
+    related: ['json-formatter', 'base64', 'csv-converter'],
     name: 'Color & Contrast Studio',
     short: 'Build palettes with harmonies and WCAG contrast checks — hex, RGB, and HSL in lockstep.',
     description:
@@ -317,6 +328,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'csv-converter',
+    related: ['json-formatter', 'base64', 'regex-tester'],
     name: 'CSV Converter',
     short: 'Convert CSV to JSON or Markdown, and JSON back to CSV — RFC 4180 aware, delimiter auto-detected.',
     description:

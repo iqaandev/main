@@ -10,10 +10,17 @@ function GoldDiamond({ className = '' }: { className?: string }) {
 }
 
 /**
- * Shared header for every /tools page — lives outside the home page's
- * LocaleProvider. Wordmark returns to the studio site; no locale toggle
- * in this release.
+ * Shared header for every /tools page — mirrors the studio site's navbar
+ * (same links, same CTA) so tools feel part of one application. Lives
+ * outside the home page's LocaleProvider; no locale toggle this release.
  */
+const siteLinks = [
+  { label: 'Services', href: '/#services' },
+  { label: 'Products', href: '/#products' },
+  { label: 'Studio', href: '/#studio' },
+  { label: 'Process', href: '/#process' },
+];
+
 export default function ToolsHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-paper/90 backdrop-blur-md">
@@ -29,26 +36,36 @@ export default function ToolsHeader() {
           </span>
         </Link>
 
-        <nav aria-label="Tools" className="flex items-center gap-6 sm:gap-8">
+        <nav aria-label="Site and tools" className="flex items-center gap-6 sm:gap-8">
+          {siteLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className="group relative hidden py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-ink/60 transition-colors duration-300 hover:text-ink md:inline-flex"
+            >
+              {link.label}
+              <span
+                aria-hidden="true"
+                className="absolute -bottom-0.5 start-0 h-px w-0 bg-gold transition-all duration-500 group-hover:w-full"
+              />
+            </Link>
+          ))}
           <Link
             href="/tools"
-            className="group relative py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-ink/60 transition-colors duration-300 hover:text-ink"
+            aria-current="true"
+            className="group relative py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-ink transition-colors duration-300"
           >
             Tools
             <span
               aria-hidden="true"
-              className="absolute -bottom-0.5 start-0 h-px w-0 bg-gold transition-all duration-500 group-hover:w-full"
+              className="absolute -bottom-0.5 start-0 h-px w-full bg-gold"
             />
           </Link>
           <Link
-            href="/"
-            className="group flex items-center gap-2 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-ink/50 transition-colors duration-300 hover:text-ink"
+            href="/#contact"
+            className="rounded-full bg-ink px-4 py-2 font-mono text-[11px] uppercase tracking-[0.15em] text-paper transition-colors duration-300 hover:bg-viridian sm:px-5"
           >
-            <span
-              aria-hidden="true"
-              className="hidden h-px w-4 bg-ink/25 transition-all duration-500 sm:block group-hover:w-6"
-            />
-            Back to site
+            Start a project
           </Link>
         </nav>
       </div>
