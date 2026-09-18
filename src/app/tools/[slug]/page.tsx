@@ -2,29 +2,23 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTool, tools, type Tool } from '@/lib/tools/registry';
 import ToolLayout from '@/components/tools/ToolLayout';
-import JsonFormatter from '@/components/tools/JsonFormatter';
-import Base64Tool from '@/components/tools/Base64Tool';
-import JwtDecoder from '@/components/tools/JwtDecoder';
-import CronExplainer from '@/components/tools/CronExplainer';
-import RegexTester from '@/components/tools/RegexTester';
-import UuidGenerator from '@/components/tools/UuidGenerator';
-import TimestampConverter from '@/components/tools/TimestampConverter';
-import HashGenerator from '@/components/tools/HashGenerator';
-import ColorStudio from '@/components/tools/ColorStudio';
-import CsvConverter from '@/components/tools/CsvConverter';
+import ProjectCostEstimator from '@/components/tools/ProjectCostEstimator';
+import MvpPrioritizer from '@/components/tools/MvpPrioritizer';
+import SaasCalculator from '@/components/tools/SaasCalculator';
+import TechStackAdvisor from '@/components/tools/TechStackAdvisor';
+import CloudCostEstimator from '@/components/tools/CloudCostEstimator';
+import MaintenanceCalculator from '@/components/tools/MaintenanceCalculator';
+import RoiCalculator from '@/components/tools/RoiCalculator';
 import type { ComponentType } from 'react';
 
 const toolComponents: Record<string, ComponentType> = {
-  'json-formatter': JsonFormatter,
-  base64: Base64Tool,
-  'jwt-decoder': JwtDecoder,
-  'cron-explainer': CronExplainer,
-  'regex-tester': RegexTester,
-  'uuid-generator': UuidGenerator,
-  'timestamp-converter': TimestampConverter,
-  'hash-generator': HashGenerator,
-  'color-studio': ColorStudio,
-  'csv-converter': CsvConverter,
+  'project-cost-estimator': ProjectCostEstimator,
+  'mvp-prioritizer': MvpPrioritizer,
+  'saas-calculator': SaasCalculator,
+  'tech-stack-advisor': TechStackAdvisor,
+  'cloud-cost-estimator': CloudCostEstimator,
+  'maintenance-calculator': MaintenanceCalculator,
+  'roi-calculator': RoiCalculator,
 };
 
 export function generateStaticParams() {

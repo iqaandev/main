@@ -1,16 +1,12 @@
 /*
  * IQAAN Tools registry — single source of truth for the /tools hub,
- * tool routes, metadata, and the sitemap. Content is English-only this
- * release; the nav label is translated in both dictionaries.
+ * tool routes, metadata, and the sitemap. Seven business decision tools
+ * for founders, product owners, and businesses scoping software.
+ * Content is English-only this release; the nav label is translated in
+ * both dictionaries.
  */
 
-export type ToolCategory =
-  | 'Formatter'
-  | 'Converter'
-  | 'Inspector'
-  | 'Tester'
-  | 'Generator'
-  | 'Designer';
+export type ToolCategory = 'Estimator' | 'Planner' | 'Advisor' | 'Calculator';
 
 export interface ToolFaq {
   q: string;
@@ -39,324 +35,235 @@ export const SITE_URL = 'https://iqaan.com';
 
 export const tools: Tool[] = [
   {
-    slug: 'json-formatter',
-    related: ['csv-converter', 'base64', 'jwt-decoder'],
-    name: 'JSON Formatter',
-    short: 'Format, minify, and validate JSON with syntax highlighting and instant error pinpointing.',
+    slug: 'project-cost-estimator',
+    related: ['roi-calculator', 'maintenance-calculator', 'mvp-prioritizer'],
+    name: 'Software Project Cost Estimator',
+    short:
+      'Estimate what your software project costs to build — platform, features, complexity, design, and timeline priced live into a budget range.',
     description:
-      'Free online JSON formatter, validator, and minifier. Pretty-print JSON with 2 or 4 space indentation, syntax highlighting, key counts and depth stats, and precise line-and-column error messages — all in your browser.',
+      'Free software project cost estimator. Price a web, mobile, or desktop build in seconds — platform base, per-feature costs, complexity, design level, and timeline dials produce a realistic budget range, team shape, and duration. Private, client-side, no signup.',
     longDescription: [
-      'Paste any JSON — an API response, a config file, a payload from your logs — and it is formatted, validated, and highlighted instantly. Choose between 2-space and 4-space indentation, switch to minified output for production payloads, and read structure at a glance with live statistics for byte size, key count, and maximum nesting depth.',
-      'When JSON is malformed, the formatter does more than shrug: it reports the exact line and column where parsing failed and quotes the offending snippet, so a trailing comma or an unescaped quote takes seconds to find instead of minutes. Output can be copied to the clipboard or downloaded as a .json file.',
-      'Everything runs locally in your browser using the same parsing engine JavaScript ships with. No data is uploaded, logged, or retained — which makes this formatter safe for payloads you would never paste into a hosted service.',
+      'Answer six questions the way an estimator at a studio actually would: which platform, what scope, which features, how complex, how much design, and how aggressive the timeline. Every dial re-prices the estimate instantly into an honest range — never a false-precision single number — because real quotes move with the same inputs. The model behind it is calibrated on delivered projects, and every rate constant is documented, not hidden.',
+      'Beyond the headline budget you get the working assumptions a delivery lead would sketch: an itemized breakdown table from platform base to timeline adjustment, a suggested team shape across product, design, engineering, and QA, and a duration estimate derived from how many developers the budget can honestly support. Change the timeline to aggressive and watch both price and team react — speed is bought with parallelism, not discounts.',
+      'The estimator runs entirely in your browser with no account and no server. Nothing you enter is uploaded, and nothing is remembered between visits. When the number looks plausible, the honest next step is a conversation — IQAAN turns ranges like these into firm, itemized quotes within 48 hours.',
     ],
     faq: [
       {
-        q: 'Is my JSON sent to a server?',
-        a: 'No. Parsing, formatting, and highlighting all happen in your browser with JavaScript’s built-in JSON engine. Nothing leaves your machine, so the tool is safe for confidential payloads.',
+        q: 'How much does it cost to build an app?',
+        a: 'A focused MVP starts around $15k–$30k; a full production product with payments, dashboards, and custom design typically lands between $60k and $150k. The estimator prices your exact combination — platform, features, complexity, design level, and timeline — into a range in seconds.',
       },
       {
-        q: 'What does the validator check?',
-        a: 'It runs a full JSON.parse on every keystroke (debounced). If parsing fails, you get the exact line and column of the offending character together with a short quoted snippet of the broken region.',
+        q: 'How is this different from a quote?',
+        a: 'It is an estimate: a calibrated model of typical rates and effort, blind to your specific context. A quote is a commitment — itemized, signed, and backed by a team. Use this to budget and sanity-check; then IQAAN delivers a firm, itemized quote within 48 hours.',
       },
       {
-        q: 'What do the stats mean?',
-        a: 'Bytes is the UTF-8 size of the current output, keys counts every object key at any depth, and depth is the deepest level of nested objects or arrays — useful for spotting structures that are flatter or deeper than expected.',
+        q: 'Why does the aggressive timeline increase the price?',
+        a: 'Compressing a schedule means more developers working in parallel, tighter coordination, and schedule risk absorbed by the studio — the model prices that at a 30% premium. Relaxed timelines get a small discount because sequencing one team steadily is the cheapest way to build.',
       },
       {
-        q: 'Can I minify JSON too?',
-        a: 'Yes. Switch the action from Format to Minify to strip all whitespace into a single production-ready line, then copy or download the result.',
+        q: 'What is the range based on?',
+        a: 'The point estimate applies studio-calibrated base rates, feature costs, and multipliers; the presented range is ±20% around it. Any estimator that gives you one number to the dollar is guessing with more decimals.',
       },
     ],
-    category: 'Formatter',
+    category: 'Estimator',
   },
   {
-    slug: 'base64',
-    related: ['jwt-decoder', 'hash-generator', 'json-formatter'],
-    name: 'Base64 Encoder / Decoder',
-    short: 'Encode and decode Base64 bidirectionally — UTF-8 safe, URL-safe alphabet, files included.',
+    slug: 'mvp-prioritizer',
+    related: ['project-cost-estimator'],
+    name: 'MVP Feature Prioritizer',
+    short:
+      'Score features by impact × confidence ÷ effort, drag the cut line between v1 and later, and copy a ready-to-paste MVP scope.',
     description:
-      'Free online Base64 encoder and decoder. Convert text to Base64 and back with full UTF-8 support, switch to the URL-safe alphabet, and turn any file into a Base64 string — entirely in your browser.',
+      'Free MVP feature prioritizer. Score every feature on impact, confidence, and effort with live sliders, watch the list re-sort by value, set the v1 cut line, and copy a clean scope summary — RICE-style scoring, entirely in your browser.',
     longDescription: [
-      'Base64 is everywhere — data URIs, HTTP basic auth headers, JWTs, email attachments — and it breaks quietly the moment a non-ASCII character or a URL-reserved symbol sneaks in. This converter encodes and decodes bidirectionally and is UTF-8 safe by construction: text goes through TextEncoder and TextDecoder rather than naive btoa, so Arabic, Chinese, and emoji survive the round trip.',
-      'A URL-safe toggle switches the alphabet to - and _ with stripped padding, the format APIs and JWT libraries expect. Swap direction with one click, and drop a file onto the encoder to get its Base64 representation with a size readout — handy for inline images and attachments in JSON payloads.',
-      'Like every IQAAN tool, the conversion runs entirely client-side. Files are read with the browser FileReader and never leave your device.',
+      'The classic MVP failure is building everything and shipping nothing. This prioritizer applies a simplified RICE score — impact × confidence ÷ effort — with three 1-to-5 sliders per feature. The list re-sorts live as you score, so the debate stops being opinions and becomes arithmetic everyone can see.',
+      'The cut line is the honest part: slide it until the v1 scope is something you would actually dare to ship. Everything above the line is your MVP; everything below is explicitly later. One click copies a plain-text scope summary — "MVP scope — v1: a, b, c. Later: d, e." — ready for a spec, a deck, or a message to your team.',
+      'Scoring happens entirely client-side; your roadmap never leaves your machine. It seeds with four common features so the mechanics teach themselves — replace them with your own and the ordering logic stays the same.',
     ],
     faq: [
       {
-        q: 'Why do I get an error decoding some Base64 strings?',
-        a: 'The decoder accepts both the standard and URL-safe alphabets and adds missing padding automatically. If the string still fails, it contains characters that are not valid Base64 — commonly the result of copying only part of a token or of a %xx escape that was never decoded.',
+        q: 'What is the scoring formula?',
+        a: 'Score = impact × confidence ÷ effort, each rated 1–5. Impact is how much the feature moves your core metric, confidence is how sure you are of that estimate, and effort is build cost. Dividing by effort is what makes cheap high-value features float to the top.',
       },
       {
-        q: 'What is the URL-safe alphabet?',
-        a: 'URL-safe Base64 replaces + with - and / with _, and typically drops the = padding. Those characters are reserved in URLs and can corrupt query parameters, which is why JWTs and many APIs use this variant.',
+        q: 'How many features should ship in v1?',
+        a: 'Fewer than feels comfortable. A useful heuristic: if the v1 column would take longer than a quarter or needs more than one sentence to justify to a customer, move the cut line up. The slider exists precisely so you can feel the trade-off.',
       },
       {
-        q: 'Does it handle non-English text and emoji?',
-        a: 'Yes. Encoding converts text to UTF-8 bytes first and decoding converts bytes back with a strict UTF-8 decoder, so any Unicode text round-trips correctly — and genuinely invalid byte sequences are reported instead of silently producing garbage.',
+        q: 'Is this RICE?',
+        a: 'It is RICE with the Reach term removed — impact × confidence ÷ effort. Reach matters when comparing features across different user segments; for a first MVP with no users yet, the three remaining terms carry the signal.',
       },
       {
-        q: 'Is there a size limit for files?',
-        a: 'The only limit is your browser’s memory. A few megabytes encode in a blink; very large files produce very large strings, which is a Base64 property, not a tool limitation.',
+        q: 'Can I share the prioritized list with my team?',
+        a: 'Yes — the copy button produces a plain-text summary of the v1 and later scopes in score order, ready to paste into any document, ticket, or chat.',
       },
     ],
-    category: 'Converter',
+    category: 'Planner',
   },
   {
-    slug: 'jwt-decoder',
-    related: ['base64', 'hash-generator', 'timestamp-converter'],
-    name: 'JWT Decoder',
-    short: 'Decode JSON Web Token headers and payloads, with exp/iat/nbf status badges and readable timestamps.',
+    slug: 'saas-calculator',
+    related: ['roi-calculator', 'tech-stack-advisor'],
+    name: 'SaaS Unit Economics Calculator',
+    short:
+      'Compute LTV, LTV:CAC, CAC payback, MRR, ARR, and a 12-month MRR projection — the numbers that decide if your SaaS works.',
     description:
-      'Free online JWT decoder. Inspect JSON Web Token header, payload, and signature, see exp, iat, and nbf claims as human-readable timestamps, and get instant Valid, Expired, or Not yet valid status — decoding only, fully client-side.',
+      'Free SaaS unit economics calculator. Work out LTV, the LTV:CAC ratio, CAC payback months, ARPU, MRR, and ARR from price, margin, churn, and growth — with a 12-month projected MRR chart. All client-side, nothing uploaded.',
     longDescription: [
-      'Paste a JSON Web Token and it splits into its three parts — header, payload, signature — each shown in its own panel with pretty-printed JSON. The claims that matter most for debugging get special treatment: exp, iat, and nbf are rendered as human-readable local timestamps alongside the raw epoch values.',
-      'A status badge summarizes the token’s lifecycle at a glance: Valid while now falls between nbf/not-before and exp/expiry, Expired once the expiry has passed, Not yet valid before the nbf date, and No expiry when the token carries no exp claim at all. Registered claims like sub, iss, aud, and jti are labelled so you can read a token the way the library that issued it intended.',
-      'Decoding is not verification. This tool reads the unencrypted parts of a JWT and makes no attempt to validate the signature — that requires the signing secret or public key and belongs server-side. Nothing you paste here is transmitted anywhere; the token is decoded in your browser.',
+      'Growth without unit economics is a leaky bucket with better marketing. Six inputs — price, gross margin, monthly churn, CAC, subscriber count, and net growth — drive the whole model: lifetime value, the LTV:CAC ratio with an honest health verdict, CAC payback in months, and the MRR/ARR/ARPU snapshot you will be asked for at every board meeting.',
+      'The projection strip compounds your net growth rate over twelve months and draws it as twelve plain bars, so the difference between 3% and 6% monthly growth stops being abstract. The formulas are standard and stated openly: LTV = price × margin ÷ churn, payback = CAC ÷ monthly gross profit per subscriber. No hockey sticks, no dark arts.',
+      'Everything computes locally in your browser. Your pricing and churn numbers are nobody\u2019s business but yours — which is exactly why this tool makes no network calls at all.',
     ],
     faq: [
       {
-        q: 'Does this tool verify JWT signatures?',
-        a: 'No — deliberately. Verifying a signature requires the secret or public key of the issuing party, and that is a server-side responsibility. This decoder only reads and pretty-prints the unencrypted header and payload so you can inspect claims safely.',
+        q: 'What is a good LTV:CAC ratio?',
+        a: 'The convention: 3:1 or better is healthy — you earn back three times what a customer costs to acquire. Between 1 and 3 is watch territory; below 1 you are paying more for customers than they ever return, which no volume of growth fixes. The calculator color-codes all three zones live.',
       },
       {
-        q: 'What do the status badges mean?',
-        a: 'Valid means the current time is after nbf (if present) and before exp. Expired means exp is in the past, Not yet valid means nbf is still in the future, and No expiry means the token has no exp claim — it is valid indefinitely until revoked.',
+        q: 'How is LTV calculated here?',
+        a: 'LTV = (price × gross margin) ÷ monthly churn. With a $50 plan at 80% margin and 3% monthly churn, a customer is worth about $1,333 in gross profit — 50 × 0.8 ÷ 0.03. Margin matters: revenue you never keep is not lifetime value.',
       },
       {
-        q: 'Why won’t my five-part token decode?',
-        a: 'Tokens with five dot-separated parts are JWEs — encrypted JSON Web Encryption tokens. Their payload is ciphertext by design, so there is nothing readable to decode without the decryption key.',
+        q: 'What counts as CAC payback?',
+        a: 'CAC payback = CAC ÷ gross profit per subscriber per month. A $300 CAC against $40 of monthly gross profit pays back in 7.5 months. Under 12 months is generally considered healthy; over 24 and cash flow becomes the strategy.',
       },
       {
-        q: 'Is it safe to paste production tokens here?',
-        a: 'The token never leaves your browser — there is no network call at all. The usual caution still applies: treat any valid credential as a secret and revoke tokens that have been shared carelessly.',
+        q: 'Does the projection account for churn?',
+        a: 'Yes — enter your net monthly growth (new subscribers minus churned, as a percentage of the current base) and the strip compounds that rate across twelve months. Using net growth keeps the model honest about what churn quietly subtracts.',
       },
     ],
-    category: 'Inspector',
+    category: 'Calculator',
   },
   {
-    slug: 'cron-explainer',
-    related: ['timestamp-converter', 'regex-tester', 'uuid-generator'],
-    name: 'Cron Expression Explainer',
-    short: 'Translate cron expressions into plain English with live validation and the next five run times.',
+    slug: 'tech-stack-advisor',
+    related: ['cloud-cost-estimator', 'saas-calculator'],
+    name: 'Tech Stack Advisor',
+    short:
+      'Answer six questions — product, scale, deadline, team, SEO, budget — and get a recommended stack with honest reasoning and an alternative.',
     description:
-      'Free online cron expression explainer. Convert any 5-field crontab schedule into plain English, validate each field as you type, and compute the next five run times in your timezone — presets included, all in your browser.',
+      'Free tech stack advisor for founders. Six guided questions about your product, scale, timeline, team background, SEO, and budget produce a recommended frontend, backend, database, and hosting stack — with reasoning you can defend. Fully client-side.',
     longDescription: [
-      'Cron is fifty years old and still running the world’s scheduled jobs — but 30 4 * * 1-5 reads like noise to anyone who did not write it. This explainer turns each expression into a plain-English sentence, validates every field live (minutes 0–59, hours 0–23, month and weekday names included), and supports the full syntax: asterisks, steps, lists, ranges, and the ? placeholder.',
-      'Beyond translation, the tool computes the next five times the expression will fire, shown in your local timezone with the zone name displayed. The search is bounded to one year ahead, so impossible expressions — say, the 31st of February — return a friendly note instead of hanging the tab. Six common presets, from every-five-minutes to weekday-morning at 9 AM, load with one click.',
-      'Everything is computed client-side, including the schedule search, so the page works offline once loaded and your expressions stay private.',
+      'Choosing a stack is where most software projects quietly go wrong — not because anyone picked a bad technology, but because they picked a technology foreign to the people who must ship it. This advisor walks six questions, one at a time, and scores your answers against six curated, boring-in-the-good-way stacks: Next.js + Postgres, Django, Laravel, Rails, React Native + Node, and Flutter + Firebase.',
+      'The result is an editorial card, not a wall of logos: frontend, backend, database, and hosting rows, each with a one-line reason; two or three bullets on why the choice fits your specific answers; and — because no recommendation is universal — an honest note about when to prefer the runner-up instead. Mobile projects are scored strictly between React Native and Flutter by team background, and AI products lean Python by design.',
+      'The whole questionnaire runs in your browser — no account, no tracking, no email gate. Keyboard players can fly through it with number keys and arrows.',
     ],
     faq: [
       {
-        q: 'Which cron dialect does this support?',
-        a: 'Standard 5-field crontab syntax: minute, hour, day-of-month, month, day-of-week — with *, lists, ranges, steps (*/n and a-b/n), three-letter month and weekday names, and ? as a no-op placeholder. Six-field Quartz-style expressions with seconds are not supported.',
+        q: 'How does the advisor choose a stack?',
+        a: 'Each answer adds points to the stacks it suits, across six dimensions: what you are building, expected scale, time to market, team background, SEO criticality, and budget posture. The highest total wins; the scoring matrix is a documented model, not a vibe. Mobile projects are deliberately shortlisted to React Native vs Flutter, decided by your team\u2019s background.',
       },
       {
-        q: 'How are next run times computed?',
-        a: 'The tool walks forward minute by minute from now, in your timezone, and stops when it has found five matches or crossed one year. DST transitions are handled by the same timezone engine your browser uses for everything else.',
+        q: 'Why does team background matter so much?',
+        a: 'Because stacks are hiring and velocity decisions in disguise. A JavaScript team ships faster on Next.js or React Native; a Python team should rarely be talked out of Django; a PHP team already owns half of Laravel\u2019s mental model. The best stack is overwhelmingly the one your people can drive hard.',
       },
       {
-        q: 'Why does my expression say it never matches?',
-        a: 'Some combinations are impossible — the 31st day of a short month, or February 30th. If nothing matches within a year, the tool says so instead of pretending: check your day-of-month and month fields.',
+        q: 'Which stacks can it recommend?',
+        a: 'Six curated options: Next.js + Postgres, Django + Postgres, Laravel + MySQL, Rails + Postgres, React Native + Node, and Flutter + Firebase. Deliberately mainstream choices with large talent pools and a decade of answers — exotic stacks make poor defaults.',
       },
       {
-        q: 'What happens when both day-of-month and day-of-week are set?',
-        a: 'Classic cron (Vixie) semantics: when both fields are restricted, the job runs when either matches, not both. This explainer follows that convention and renders it faithfully in the English sentence.',
+        q: 'Is the recommendation binding?',
+        a: 'No — treat it as a strong default and a conversation starter. Every result card includes an honest alternative note describing when the runner-up is the better call. IQAAN validates stack fit against your actual requirements before anything is built.',
       },
     ],
-    category: 'Inspector',
+    category: 'Advisor',
   },
   {
-    slug: 'regex-tester',
-    related: ['cron-explainer', 'json-formatter', 'csv-converter'],
-    name: 'Regex Tester',
-    short: 'Test regular expressions live with match highlighting, capture-group tables, and a syntax cheatsheet.',
+    slug: 'cloud-cost-estimator',
+    related: ['tech-stack-advisor', 'project-cost-estimator'],
+    name: 'Cloud Cost Estimator',
+    short:
+      'Estimate your monthly cloud bill — compute, storage, bandwidth, and extras — from users and per-user workload, at public list prices.',
     description:
-      'Free online regex tester. Experiment with JavaScript regular expressions in real time — live match highlighting, global/case-insensitive/multiline/dotall/unicode flags, capture group tables with positions, inline error messages, and a compact cheatsheet.',
+      'Free cloud cost estimator. Model your monthly AWS/GCP/Azure bill from monthly active users, storage and bandwidth per user, compute tier, and CDN, database, media, and backup options — a full breakdown table and annual figure, 2026 ballpark pricing.',
     longDescription: [
-      'Regular expressions are a write-only language until you can see them match. Type a pattern, flip the g, i, m, s, and u flags with one click, and watch matches light up in your test text with alternating tints — a live count keeps score. Invalid patterns surface the interpreter’s own error message inline instead of a blank panel.',
-      'Capture groups get a table of their own: for every match, each group’s captured text and character position, so you can verify that what you captured is what you meant to capture. A compact cheatsheet covers the everyday vocabulary — \d, \w, quantifiers, ranges, groups, named groups, and lookarounds — because nobody remembers lookahead syntax from memory.',
-      'The tester uses your browser’s native RegExp engine, so what matches here matches in your JavaScript exactly. Patterns and test text are processed locally and never uploaded.',
+      'Cloud bills scale with users, and "it is basically free at our size" is how surprise invoices are born. Start from monthly active users on a log slider from 100 to a million, add per-user storage and bandwidth, pick a compute tier, and toggle the extras real products accumulate — CDN, managed database, media processing, daily backups.',
+      'The model uses public cloud list prices as a 2026 ballpark: $0.023/GB storage, $0.09/GB egress, and compute tiers from a $15 serverless floor to heavy dedicated workloads, each scaling per user. The breakdown table shows every line so you can see which assumption is actually driving the total — usually bandwidth — and the headline is a range, because real bills vary with region, reservations, and egress agreements.',
+      'Estimates run entirely client-side. Nothing is uploaded, and the numbers you model stay between you and your browser.',
     ],
     faq: [
       {
-        q: 'Which regex flavor is used?',
-        a: 'Your browser’s native JavaScript RegExp engine (ECMAScript). That means no lookbehind limitations in modern browsers, Unicode property escapes under the u flag, and behaviour identical to running the pattern in your own code.',
+        q: 'Whose prices does this use?',
+        a: 'Public list prices from the major clouds (AWS, GCP, Azure), blended into a 2026 ballpark: object storage at $0.023/GB-month, egress at $0.09/GB, and documented per-tier compute rates. Reserved instances, committed-use discounts, and egress deals can cut real bills by 30–60% — the range shown is list, not negotiated.',
       },
       {
-        q: 'What do the flags g, i, m, s, and u do?',
-        a: 'g finds all matches rather than the first; i matches case-insensitively; m makes ^ and $ match line boundaries; s lets . match newlines; u enables full Unicode matching and property escapes like \p{L}.',
+        q: 'Why is bandwidth usually the biggest line?',
+        a: 'Egress is the cloud\u2019s quietest profit center: media-heavy products can move gigabytes per user per month, and $0.09/GB compounds fast at scale. A CDN moves delivery to the edge at a fraction of origin egress — toggle it on and watch the bandwidth line react.',
       },
       {
-        q: 'Why does my pattern show zero matches?',
-        a: 'Test with and without the g flag — patterns written with ^ or $ anchors depend on the m flag for multiline text, and . does not cross lines without s. The inline error panel also shows the engine’s message if the pattern itself fails to compile.',
+        q: 'How do I pick a compute tier?',
+        a: 'Serverless suits spiky or light workloads (forms, APIs, cron jobs); Small fits typical web apps; Medium is for constant background work, queues, or search; Large is for heavy processing, video, or ML inference. When in doubt, estimate one tier up — compute is the line most often renegotiated.',
       },
       {
-        q: 'Is there a limit on test text size?',
-        a: 'Highlighting is capped for very large inputs to keep the page responsive; matching itself runs natively and stays fast even on tens of thousands of characters.',
+        q: 'Does the estimate include my engineer\u2019s time?',
+        a: 'No — this is infrastructure only. Running infrastructure also costs engineering time (patching, monitoring, incidents); the managed database option prices part of that away. For the full picture, pair this with the maintenance calculator.',
       },
     ],
-    category: 'Tester',
+    category: 'Estimator',
   },
   {
-    slug: 'uuid-generator',
-    related: ['hash-generator', 'timestamp-converter', 'base64'],
-    name: 'UUID Generator',
-    short: 'Generate RFC-compliant UUID v4 and v7 identifiers in bulk, with per-item and copy-all export.',
+    slug: 'maintenance-calculator',
+    related: ['project-cost-estimator', 'roi-calculator'],
+    name: 'Maintenance Cost Calculator',
+    short:
+      'Price the monthly retainer your application actually needs — size, technology age, compliance, support level, and release cadence, benchmarked honestly.',
     description:
-      'Free online UUID generator. Create cryptographically random RFC 4122 version 4 UUIDs and time-ordered version 7 UUIDs in bulk — uppercase and no-hyphen formats, one-click regenerate, copy individually or all at once.',
+      'Free software maintenance cost calculator. Estimate monthly upkeep from application size, technology age, users, compliance, support expectation, and release cadence — hours × blended rate, compared against the 15–20%-of-build-cost industry benchmark.',
     longDescription: [
-      'Every identifier you generate here is produced by crypto.getRandomValues, the browser’s cryptographically secure random source — the same primitive production libraries use. Version 4 UUIDs are 122 bits of pure randomness for when you need an opaque unique ID. Version 7 UUIDs lead with a 48-bit millisecond timestamp, so they sort chronologically in databases and indexes — increasingly the default choice for new systems.',
-      'Generate between 1 and 100 at a time, flip on uppercase or hyphen-free output to match your system’s convention, and copy any single UUID with one click or the whole batch as a list. The regenerate button produces a fresh set instantly — no page reload, no server round trip.',
-      'UUIDs are generated entirely in your browser. There is no rate limit, no logging of generated values, and no chance of a collision with anyone else’s batch: 122 bits of entropy makes that a practical impossibility.',
+      'Software is not a purchase; it is a pet. This calculator prices the ongoing care a healthy application needs: a baseline hours budget by size, multiplied honestly for technology age, user load, compliance burden, support expectation, and release cadence — then priced at a blended studio rate with the hours shown, not hidden.',
+      'The industry rule of thumb says maintenance runs 15–20% of the original build cost per year. Enter what your build cost and the calculator renders both numbers side by side, so you can see whether your setup prices above or below the benchmark — and why. Legacy code, regulated industries, and 24×7 commitments push estimates up the scale; a current stack with modest scope pulls them down.',
+      'Everything is computed in your browser. No account, no tracking, and nothing about your systems leaves your machine.',
     ],
     faq: [
       {
-        q: 'What is the difference between UUID v4 and v7?',
-        a: 'Version 4 is fully random. Version 7 begins with a millisecond timestamp followed by random bits, which makes IDs both unique and roughly time-ordered — friendlier to B-tree database indexes and to debugging, at the cost of revealing generation time.',
+        q: 'How much does software maintenance cost per month?',
+        a: 'A small, current application typically needs $700–$1,700/month; a typical medium product runs $2,000–$5,000; large or legacy platforms with SLAs can exceed $15,000/month. The calculator prices your exact combination of size, technology age, users, compliance, support, and release cadence.',
       },
       {
-        q: 'Are these UUIDs safe to use in production?',
-        a: 'Yes. They are built on crypto.getRandomValues, the browser’s CSPRNG, and follow RFC 4122/9562 layout including correct version and variant bits. The output is equivalent to what a server-side library would produce.',
+        q: 'What is the 15–20% benchmark?',
+        a: 'A widely cited industry norm: annual maintenance costs 15–20% of the original build price — a $120k build implies $18k–$24k a year, or $1.5k–$2k a month. It is a sanity check, not a law; the calculator shows your estimate and the benchmark side by side.',
       },
       {
-        q: 'What are the chances of a collision?',
-        a: 'Astronomically small. A version 4 UUID carries 122 random bits; you would need to generate billions per year for millions of years to approach a realistic collision probability.',
+        q: 'Why does legacy technology cost more to maintain?',
+        a: 'Older stacks carry expired dependencies, scarce specialists, missing documentation, and regressions hiding behind every change — the model prices that at 1.8× the hours of a current stack. Often the honest answer is not a bigger retainer but a staged modernization.',
       },
       {
-        q: 'Can I generate UUIDs without hyphens or in uppercase?',
-        a: 'Both are one-click options. Some systems store identifiers as 32 hex characters, others as canonical lowercase-with-hyphens — the generator matches whichever convention your codebase uses.',
+        q: 'What does a 24×7 SLA actually price?',
+        a: 'The commitment, not the hours: someone must be reachable at 3 a.m., which means rotation, paging infrastructure, and on-call premiums. The model doubles the retainer versus business-hours support even though average weekly hours barely move.',
       },
     ],
-    category: 'Generator',
+    category: 'Estimator',
   },
   {
-    slug: 'timestamp-converter',
-    related: ['cron-explainer', 'uuid-generator', 'jwt-decoder'],
-    name: 'Unix Timestamp Converter',
-    short: 'Convert unix timestamps, ISO 8601 strings, and human dates in lockstep, with a live now ticker.',
+    slug: 'roi-calculator',
+    related: ['project-cost-estimator', 'saas-calculator', 'maintenance-calculator'],
+    name: 'Project ROI Calculator',
+    short:
+      'Will the project pay for itself? Investment vs hours saved, revenue, and avoided costs — payback period, 3-year ROI, and a 36-month break-even chart.',
     description:
-      'Free online Unix timestamp converter. Translate epoch seconds or milliseconds, ISO 8601 strings, and human-readable dates in real time across any timezone, with relative output like “in 3 days” and a live now ticker.',
+      'Free project ROI calculator. Enter investment, ongoing costs, staff hours saved, new revenue, and costs avoided to get net yearly benefit, payback period in months, 3-year ROI, and a 36-month cumulative break-even chart. Client-side and private.',
     longDescription: [
-      'Epoch timestamps are compact and unambiguous — and unreadable. This converter keeps three synchronized fields: a unix timestamp (seconds or milliseconds, your call), the ISO 8601 representation, and a human-readable local date-time. Type into any one of them and the other two update instantly; invalid input gets a friendly inline note rather than a wrong answer.',
-      'The timezone selector is populated from the international database your browser ships with, so you can render the same instant in Tokyo, Riyadh, or UTC without doing offset arithmetic in your head. A relative line adds the human frame of reference — “in 3 days”, “2 hours ago” — and the live now ticker at the top keeps the current unix time one glance away, with a copy button.',
-      'Ambiguity is the classic timestamp bug: the same epoch reads differently in every timezone. This tool always names the zone it is displaying, so what you see is what your logs mean.',
+      'Every internal tool, automation, or custom build lives or dies by one question: when does it pay for itself? This calculator takes the one-time investment, ongoing yearly costs, and the three benefit streams projects actually produce — staff hours saved at a loaded hourly rate, new revenue, and costs avoided — and computes the honest arithmetic.',
+      'The outputs are the three numbers a decision-maker needs: net benefit per year, payback period in months (the headline), and 3-year ROI, color-coded so a value-destroying project cannot hide. The 36-month strip draws cumulative position month by month — bars below the dashed line still pay off the investment, viridian bars are months of real return.',
+      'The model is deliberately undiscounted and transparent: at this horizon the decision is go or no-go, not treasury precision. All math runs in your browser; your business case never leaves your machine.',
     ],
     faq: [
       {
-        q: 'Should I use seconds or milliseconds?',
-        a: 'JavaScript and Java use milliseconds; Unix tools and most APIs use seconds. The unit toggle switches interpretation — the converter guesses sensibly when you paste, since a ten-digit epoch is seconds and thirteen digits is milliseconds.',
+        q: 'How is payback period calculated?',
+        a: 'Payback = one-time investment ÷ monthly net benefit, where net benefit is hours saved × loaded rate + new revenue + costs avoided − ongoing monthly costs. A $60,000 investment returning $5,000 a month pays back in exactly 12 months.',
       },
       {
-        q: 'Which ISO 8601 formats are accepted?',
-        a: 'Anything the JavaScript date parser accepts: 2026-09-18T14:30:00Z, with offsets like +03:00, and plain dates like 2026-09-18. Zoned output is always shown with the selected timezone named, so there is no ambiguity about what you copied.',
+        q: 'What is a loaded hourly rate?',
+        a: 'The fully burdened cost of an hour: salary plus benefits, taxes, equipment, and overhead — typically 1.5–2× the wage. Using the wage instead of the loaded rate quietly halves your savings, which is how business cases die in year two.',
       },
       {
-        q: 'How accurate is the now ticker?',
-        a: 'It updates every second from your device clock. The copy button grabs the exact value at click time — unix seconds by default — for quick use in logs and queries.',
+        q: 'What ROI should a project clear?',
+        a: 'A positive 3-year ROI is the floor, not the bar — most organizations want internal projects to clear roughly 2–3× over three years to justify the distraction. Anything paying back beyond 36 months on this chart deserves a harder look.',
       },
       {
-        q: 'What does the relative line mean?',
-        a: 'It is the difference between the converted instant and now, expressed the way people speak: “in 3 days”, “2 hours ago”. It is computed from the same value shown in the absolute fields, using your browser’s locale.',
+        q: 'Why no discount rate or NPV?',
+        a: 'At a 3-year horizon with typical software projects, discounting moves the answer by single-digit percents while burying the intuition. This tool optimizes for the go/no-go decision; your finance team can NPV the survivors.',
       },
     ],
-    category: 'Converter',
-  },
-  {
-    slug: 'hash-generator',
-    related: ['base64', 'uuid-generator', 'jwt-decoder'],
-    name: 'Hash Generator',
-    short: 'Compute SHA-1, SHA-256, SHA-384, and SHA-512 digests of text or files simultaneously.',
-    description:
-      'Free online SHA hash generator. Compute SHA-1, SHA-256, SHA-384, and SHA-512 checksums of any text or file at the same time using native SubtleCrypto — copy digests as hex, with a live input size readout.',
-    longDescription: [
-      'Paste text or drop in a file and all four digests are computed at once — SHA-1 for legacy checksum compatibility, and the SHA-2 family (256, 384, 512) that everything from TLS certificates to package registries relies on. Each row shows the algorithm name, the full hex digest, and a copy button; the input size in bytes is displayed so you can verify you hashed exactly what you meant to hash.',
-      'The hashing is done by crypto.subtle — the browser’s native cryptography module, the same code path that secures HTTPS. It is fast: megabytes hash in milliseconds. One deliberate omission: MD5 is not offered, because SubtleCrypto does not implement it and MD5 has been cryptographically broken for decades; legacy migration is the only reason to reach for it, and dedicated offline tools serve that better.',
-      'Checksums are how the web says “this exact file, not a bit different”. Because everything here runs client-side, you can hash sensitive documents — contracts, database dumps, private keys — without sending a byte anywhere.',
-    ],
-    faq: [
-      {
-        q: 'Why is there no MD5?',
-        a: 'The Web Crypto API (SubtleCrypto) deliberately omits MD5 because it is cryptographically broken. If you need an MD5 digest for a legacy system, use a dedicated offline tool — and plan the migration to SHA-256.',
-      },
-      {
-        q: 'Which algorithm should I choose?',
-        a: 'SHA-256 is today’s sensible default for checksums and signatures. SHA-512 is equally secure and often faster on 64-bit CPUs. SHA-1 remains useful only for verifying old checksums and is not recommended for new purposes.',
-      },
-      {
-        q: 'How fast is it, and is there a size limit?',
-        a: 'Hashing runs natively at millions of bytes per second. Files of tens of megabytes complete in a moment; the practical limit is your browser’s available memory, since the digest is computed in one pass.',
-      },
-      {
-        q: 'Can I verify a file download with this?',
-        a: 'Yes — that is the classic use. The publisher provides a SHA-256 digest; you hash the downloaded file here and compare. If every hex character matches, the file is bit-for-bit what the publisher released.',
-      },
-    ],
-    category: 'Generator',
-  },
-  {
-    slug: 'color-studio',
-    related: ['json-formatter', 'base64', 'csv-converter'],
-    name: 'Color & Contrast Studio',
-    short: 'Build palettes with harmonies and WCAG contrast checks — hex, RGB, and HSL in lockstep.',
-    description:
-      'Free online color studio and WCAG contrast checker. Convert between hex, RGB, and HSL, generate complementary, analogous, triadic, and monochrome palettes, and test text contrast against AA and AAA thresholds.',
-    longDescription: [
-      'Start from any color — hex, RGB, or HSL, or the native picker — and the studio keeps every representation synchronized while you work. A large swatch shows the color as it will actually appear, and every value copies with one click in whichever notation your codebase wants.',
-      'From a base color, harmony rows generate complementary, analogous, triadic, and monochrome companions; click any swatch to adopt it as the new base and explore in a direction you like. The contrast checker pairs any two colors and computes the exact WCAG ratio, with pass and fail badges for AA and AAA at both normal and large text sizes — the difference between an interface that merely looks good and one that everyone can read.',
-      'Contrast math follows the WCAG 2.x relative-luminance formula precisely, so the ratio shown is the one accessibility audits will compute. The studio runs entirely in your browser; palettes never leave your machine.',
-    ],
-    faq: [
-      {
-        q: 'What contrast ratio do I need to pass WCAG?',
-        a: 'AA requires 4.5:1 for normal text and 3:1 for large text (18.7px bold or 24px regular and above). AAA — the enhanced tier — requires 7:1 and 4.5:1 respectively. The checker badges all four thresholds for any color pair.',
-      },
-      {
-        q: 'How are the harmonies calculated?',
-        a: 'In HSL space: complementary rotates the hue 180°, analogous uses ±30°, triadic ±120°, and monochrome keeps the hue while stepping lightness. They are starting points refined by taste — the studio makes adopting any swatch as the new base a single click.',
-      },
-      {
-        q: 'Which color formats can I copy?',
-        a: 'Every color is presented in hex, rgb(), and hsl() notations, each with its own copy button — plus the native picker for grabbing colors visually.',
-      },
-      {
-        q: 'Does the checker cover non-text elements?',
-        a: 'The WCAG 1.4.11 non-text contrast requirement also uses a 3:1 threshold against adjacent colors. The normal-text AA badge at 3:1 doubles as that check for UI components and graphical objects.',
-      },
-    ],
-    category: 'Designer',
-  },
-  {
-    slug: 'csv-converter',
-    related: ['json-formatter', 'base64', 'regex-tester'],
-    name: 'CSV Converter',
-    short: 'Convert CSV to JSON or Markdown, and JSON back to CSV — RFC 4180 aware, delimiter auto-detected.',
-    description:
-      'Free online CSV to JSON, JSON to CSV, and CSV to Markdown converter. An RFC 4180-aware parser handles quoted fields, embedded commas and newlines; delimiters are auto-detected and headers are optional.',
-    longDescription: [
-      'CSV looks simple and is not: quotes wrap commas, doubled quotes escape quotes, and fields can contain newlines. This converter parses the format properly — the way spreadsheets write it — and converts to pretty-printed JSON with a header toggle, or to a clean Markdown table ready to paste into documentation.',
-      'Going the other way, JSON becomes CSV: arrays of objects are flattened one level deep (nested objects become dot-notation columns), values are quoted exactly when needed, and the delimiter is your choice. The parser auto-detects commas, semicolons, and tabs on input, so European exports and TSV files work without configuration. Row and column counts are shown with every result.',
-      'Conversion happens entirely in your browser, which matters more here than anywhere: CSV files are so often customer lists, exports, or financial data. Nothing is uploaded, and results can be copied or downloaded as files.',
-    ],
-    faq: [
-      {
-        q: 'Which delimiters are supported?',
-        a: 'Commas, semicolons, and tabs — auto-detected on input by counting candidates outside quoted fields. The JSON-to-CSV direction lets you pick the delimiter explicitly.',
-      },
-      {
-        q: 'How are quoted fields handled?',
-        a: 'Per RFC 4180: fields may be wrapped in double quotes, embedded commas and newlines inside quotes are preserved, and a doubled quote inside a quoted field is a literal quote. Rows may be terminated by CRLF or LF.',
-      },
-      {
-        q: 'What does the header toggle do?',
-        a: 'With headers on, the first row becomes object keys and the rest become values — the JSON shape most APIs expect. With headers off, every row becomes an array of strings.',
-      },
-      {
-        q: 'How does JSON to CSV flattening work?',
-        a: 'One level deep: nested objects become dot-notation columns (user.name), arrays are JSON-encoded as strings, and null becomes an empty field. Consistent keys across rows produce a stable column order.',
-      },
-    ],
-    category: 'Converter',
+    category: 'Calculator',
   },
 ];
 

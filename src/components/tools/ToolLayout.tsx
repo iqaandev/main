@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { SITE_URL, type Tool, tools } from '@/lib/tools/registry';
 import ToolsHeader from './ToolsHeader';
 import ToolsFooter from './ToolsFooter';
@@ -8,10 +9,39 @@ const fade =
   'animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both motion-reduce:animate-none';
 
 /**
+ * Shared estimate-honesty CTA — the last block of every tool page: these
+ * are estimates, and the studio's actual offer is a firm, itemized quote.
+ */
+function EstimateHonestyCta() {
+  return (
+    <section
+      aria-label="From the studio"
+      className={`mt-20 rounded-md border border-ink/15 bg-ink/[0.03] px-6 py-10 text-center sm:px-10 ${fade}`}
+    >
+      <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink/50">
+        From the studio
+      </p>
+      <p className="mx-auto mt-5 max-w-2xl text-balance font-serif text-2xl font-light italic leading-snug tracking-tight text-ink/85 sm:text-3xl">
+        This is an estimate — IQAAN delivers a firm, itemized quote within 48
+        hours.
+      </p>
+      <Link
+        href="/#contact"
+        className="group mt-8 inline-flex items-center gap-3 rounded-full bg-ink px-6 py-3 font-mono text-[11px] uppercase tracking-[0.15em] text-paper transition-colors duration-300 hover:bg-viridian"
+      >
+        Start your project
+        <ArrowRight className="slide-x h-4 w-4 transition-[transform,color] duration-500" />
+      </Link>
+    </section>
+  );
+}
+
+/**
  * Shared page structure for every tool: header, breadcrumb path, editorial
  * title block, the tool itself, the "About this tool" prose and FAQ (all
  * static markup, so the SEO content is present in the prerendered HTML),
- * related-tool cross-links, then the dark-ink footer bookend.
+ * related-tool cross-links, the shared estimate-honesty CTA, then the
+ * dark-ink footer bookend.
  */
 export default function ToolLayout({
   tool,
@@ -153,6 +183,9 @@ export default function ToolLayout({
               </div>
             </section>
           )}
+
+          {/* Estimate-honesty CTA — shared across every tool page */}
+          <EstimateHonestyCta />
         </div>
       </main>
 

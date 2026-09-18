@@ -8,9 +8,9 @@ const fade =
   'animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both motion-reduce:animate-none';
 
 /**
- * Editorial index of the ten tools — hairline-divided rows in the manner
- * of the Services section: mono index, serif name, quiet description,
- * category tag, arrow on hover with a 3% ink tint.
+ * Editorial index of the seven business decision tools — hairline-divided
+ * rows in the manner of the Services section: mono index, serif name,
+ * quiet description, category tag, arrow on hover with a 3% ink tint.
  */
 export default function ToolsIndex() {
   return (
@@ -22,12 +22,14 @@ export default function ToolsIndex() {
             Tools
           </p>
           <h1 className="mt-6 text-balance font-serif text-4xl font-light leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-            Ten tools, built with{' '}
-            <em className="italic text-viridian">conviction</em>.
+            <em className="italic text-viridian">Decision</em> tools for
+            software builders.
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-ink/60">
-            Free, fast, and private developer utilities. Everything runs
-            entirely in your browser — no uploads, no accounts, no tracking.
+            Seven calculators and advisors for the calls that shape software —
+            budgets, scopes, stacks, and returns. Free, private, and entirely
+            client-side: every number computes in your browser and nothing is
+            ever uploaded.
           </p>
         </div>
 

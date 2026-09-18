@@ -2,27 +2,25 @@ import type { Metadata } from 'next';
 import ToolsIndex from '@/components/tools/ToolsIndex';
 
 export const metadata: Metadata = {
-  title: 'Free Online Developer Tools — IQAAN Tools',
+  title: 'Free Business Decision Tools for Software Builders — IQAAN Tools',
   description:
-    'Ten free, privacy-first developer tools that run entirely in your browser: JSON formatter, Base64, JWT decoder, cron explainer, regex tester, UUID generator, timestamp converter, hash generator, color studio, and CSV converter. Nothing is uploaded.',
+    'Seven free, privacy-first decision tools for founders and product owners: software project cost estimator, MVP feature prioritizer, SaaS unit economics calculator, tech stack advisor, cloud cost estimator, maintenance cost calculator, and project ROI calculator. Everything runs in your browser — nothing is uploaded.',
   keywords: [
-    'developer tools',
-    'online tools',
-    'json formatter',
-    'base64',
-    'jwt decoder',
-    'cron explainer',
-    'regex tester',
-    'uuid generator',
-    'unix timestamp converter',
-    'hash generator',
-    'color contrast checker',
-    'csv to json',
+    'software cost estimator',
+    'app cost calculator',
+    'mvp feature prioritizer',
+    'saas unit economics calculator',
+    'ltv cac calculator',
+    'tech stack advisor',
+    'cloud cost estimator',
+    'software maintenance cost calculator',
+    'project roi calculator',
+    'business decision tools',
   ],
   openGraph: {
-    title: 'Free Online Developer Tools — IQAAN Tools',
+    title: 'Free Business Decision Tools for Software Builders — IQAAN Tools',
     description:
-      'Ten privacy-first developer tools that run entirely in your browser. Built with conviction by IQAAN.',
+      'Seven free, privacy-first decision calculators for software budgets, scopes, stacks, and returns. Built with conviction by IQAAN.',
     siteName: 'IQAAN',
     type: 'website',
   },
