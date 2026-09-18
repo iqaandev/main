@@ -18,6 +18,7 @@ const en = {
       { label: 'Products', href: '#products' },
       { label: 'Studio', href: '#studio' },
       { label: 'Process', href: '#process' },
+      { label: 'Tools', href: '/tools' },
     ],
     cta: 'Start a project',
     menuTagline: 'Software, built with conviction',
@@ -230,7 +231,7 @@ const en = {
       'Cloud Services',
       'Consulting',
     ],
-    companyLinks: ['About Us', 'Careers', 'Blog', 'Case Studies', 'Contact'],
+    companyLinks: ['About Us', 'Careers', 'Blog', 'Case Studies', 'Contact', 'Developer Tools'],
     contact: {
       email: 'hello@iqaan.com',
       phone: '+1 (555) 123-4567',
@@ -257,6 +258,7 @@ const ar: Dictionary = {
       { label: 'المنتجات', href: '#products' },
       { label: 'الاستوديو', href: '#studio' },
       { label: 'منهجيتنا', href: '#process' },
+      { label: 'أدوات', href: '/tools' },
     ],
     cta: 'ابدأ مشروعك',
     menuTagline: 'برمجيات تُبنى باليقين',
@@ -485,7 +487,7 @@ const ar: Dictionary = {
       'خدمات سحابية',
       'استشارات',
     ],
-    companyLinks: ['من نحن', 'الوظائف', 'المدونة', 'دراسات الحالة', 'تواصل معنا'],
+    companyLinks: ['من نحن', 'الوظائف', 'المدونة', 'دراسات الحالة', 'تواصل معنا', 'أدوات المطورين'],
     contact: {
       email: 'hello@iqaan.com',
       phone: '+1 (555) 123-4567',

@@ -93,6 +93,11 @@ export default function Navbar() {
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    // Real routes (e.g. /tools) navigate normally; in-page anchors smooth-scroll.
+    if (href.startsWith('/')) {
+      setMobileOpen(false);
+      return;
+    }
     e.preventDefault();
     const target = document.querySelector(href);
     if (target) {

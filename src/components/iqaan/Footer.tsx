@@ -117,7 +117,11 @@ export default function Footer() {
               {t.footer.companyLinks.map((link) => (
                 <li key={link}>
                   <a
-                    href="#studio"
+                    href={
+                      link === 'Developer Tools' || link === 'أدوات المطورين'
+                        ? '/tools'
+                        : '#studio'
+                    }
                     className="text-sm text-paper/65 transition-colors duration-300 hover:text-gold"
                   >
                     {link}
