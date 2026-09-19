@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import {
   Twitter,
   Linkedin,
@@ -10,6 +11,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { useLocale } from '@/i18n/LocaleProvider';
+import { submitToWeb3Forms } from '@/lib/forms';
 
 const socialLinks = [
   { icon: Twitter, href: '#', label: 'Twitter' },
@@ -60,6 +62,27 @@ function BrandLockup() {
 
 export default function Footer() {
   const { t } = useLocale();
+  const [email, setEmail] = useState('');
+  const [nlStatus, setNlStatus] = useState<
+    'idle' | 'sending' | 'success' | 'error'
+  >('idle');
+
+  const handleNewsletter = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (nlStatus === 'sending') return;
+    setNlStatus('sending');
+    const delivered = await submitToWeb3Forms({
+      subject: 'Newsletter subscription — iqaan.com',
+      from_name: 'IQAAN Website',
+      email,
+    });
+    if (delivered) {
+      setEmail('');
+      setNlStatus('success');
+    } else {
+      setNlStatus('error');
+    }
+  };
 
   return (
     <footer className="mt-auto bg-ink text-paper">
@@ -175,23 +198,42 @@ export default function Footer() {
               </label>
               <form
                 className="mt-4 flex items-end gap-3"
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={handleNewsletter}
               >
                 <input
                   id="newsletter-email"
                   type="email"
+                  required
                   placeholder="your@email.com"
                   dir="ltr"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setNlStatus('idle');
+                  }}
                   className="w-full border-b border-paper/25 bg-transparent py-2 text-sm text-paper outline-none transition-colors placeholder:text-paper/35 focus:border-gold"
                 />
                 <button
                   type="submit"
                   aria-label={t.footer.newsletterAria}
-                  className="group flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-paper/25 text-paper/70 transition-colors duration-300 hover:border-gold hover:text-gold"
+                  disabled={nlStatus === 'sending'}
+                  className="group flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-paper/25 text-paper/70 transition-colors duration-300 hover:border-gold hover:text-gold disabled:opacity-50"
                 >
                   <ArrowRight className="slide-x h-4 w-4 transition-[transform,color] duration-500" />
                 </button>
               </form>
+              {(nlStatus === 'success' || nlStatus === 'error') && (
+                <p
+                  role="status"
+                  className={`mt-3 font-mono text-[10px] uppercase tracking-[0.15em] ${
+                    nlStatus === 'success' ? 'text-gold' : 'text-red-300'
+                  }`}
+                >
+                  {nlStatus === 'success'
+                    ? t.footer.newsletterSuccess
+                    : t.footer.newsletterError}
+                </p>
+              )}
             </div>
           </div>
         </div>

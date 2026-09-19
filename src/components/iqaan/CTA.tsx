@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { ArrowRight, LoaderCircle } from 'lucide-react';
 import { useLocale } from '@/i18n/LocaleProvider';
+import { submitToWeb3Forms } from '@/lib/forms';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -28,7 +29,7 @@ const labelClass =
   'font-mono text-[10px] uppercase tracking-[0.2em] text-ink/55 sm:text-[11px]';
 
 export default function CTA() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
@@ -38,29 +39,42 @@ export default function CTA() {
     company: '',
     message: '',
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<
+    'idle' | 'sending' | 'success' | 'error'
+  >('idle');
+  const isSubmitting = status === 'sending';
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setSubmitted(false);
+    setStatus('idle');
     setFormData((prev) => ({
       ...prev,
       [e.target.id]: e.target.value,
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    if (isSubmitting) return;
+    setStatus('sending');
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const delivered = await submitToWeb3Forms({
+      subject: 'New project inquiry — iqaan.com',
+      from_name: 'IQAAN Website',
+      name: formData.name,
+      email: formData.email,
+      company: formData.company || '—',
+      message: formData.message,
+      locale,
+    });
 
-    setIsSubmitting(false);
-    setFormData({ name: '', email: '', company: '', message: '' });
-    setSubmitted(true);
+    if (delivered) {
+      setFormData({ name: '', email: '', company: '', message: '' });
+      setStatus('success');
+    } else {
+      setStatus('error');
+    }
   };
 
   const heading = t.cta.heading;
@@ -110,6 +124,15 @@ export default function CTA() {
           </p>
 
           <form onSubmit={handleSubmit} className="mt-10 space-y-10">
+            {/* Honeypot — hidden from humans, catches bots (Web3Forms) */}
+            <input
+              type="checkbox"
+              name="botcheck"
+              tabIndex={-1}
+              autoComplete="off"
+              className="hidden"
+              aria-hidden="true"
+            />
             <div className="grid gap-10 sm:grid-cols-2">
               <div className="space-y-2.5">
                 <Label htmlFor="name" className={labelClass}>
@@ -138,6 +161,8 @@ export default function CTA() {
                   required
                   autoComplete="email"
                   dir="ltr"
+                  value={formData.email}
+                  onChange={handleChange}
                   className={`${fieldClass} text-start`}
                 />
               </div>
@@ -193,7 +218,7 @@ export default function CTA() {
                 )}
               </Button>
 
-              {submitted && (
+              {status === 'success' && (
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -202,6 +227,23 @@ export default function CTA() {
                   role="status"
                 >
                   {t.cta.success}
+                </motion.p>
+              )}
+              {status === 'error' && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6 }}
+                  role="alert"
+                  className="font-mono text-[11px] uppercase tracking-[0.15em] text-destructive"
+                >
+                  {t.cta.error}{' '}
+                  <a
+                    href="mailto:hello@iqaan.com"
+                    className="underline underline-offset-4 hover:text-ink"
+                  >
+                    {t.cta.errorDirect}
+                  </a>
                 </motion.p>
               )}
             </div>

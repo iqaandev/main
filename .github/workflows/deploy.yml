@@ -34,6 +34,8 @@ jobs:
         env:
           # GA4 Measurement ID (G-…). Unset → analytics scripts are omitted.
           NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
+          # Web3Forms access key. Unset → forms show the direct-email fallback.
+          NEXT_PUBLIC_WEB3FORMS_KEY: ${{ secrets.NEXT_PUBLIC_WEB3FORMS_KEY }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
