@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import {
   Amiri,
   Fraunces,
@@ -7,6 +8,7 @@ import {
   IBM_Plex_Sans_Arabic,
 } from "next/font/google";
 import "./globals.css";
+import { GA_MEASUREMENT_ID, analyticsEnabled } from "@/lib/analytics";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -84,6 +86,20 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${amiri.variable} ${plexArabic.variable} font-sans antialiased bg-background text-foreground`}
       >
         {children}
+        {analyticsEnabled && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');`}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   );
