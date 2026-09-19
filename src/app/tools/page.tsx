@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ToolsIndex from '@/components/tools/ToolsIndex';
+import { OG_IMAGES } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Free Business Decision Tools for Software Builders — IQAAN Tools',
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
       'Seven free, privacy-first decision calculators for software budgets, scopes, stacks, and returns. Built with conviction by IQAAN.',
     siteName: 'IQAAN',
     type: 'website',
+    images: OG_IMAGES,
   },
 };
 

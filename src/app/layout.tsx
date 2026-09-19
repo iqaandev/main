@@ -9,6 +9,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { GA_MEASUREMENT_ID, analyticsEnabled } from "@/lib/analytics";
+import { METADATA_BASE, OG_IMAGES } from "@/lib/seo";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -43,6 +44,7 @@ const plexArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
+  metadataBase: METADATA_BASE,
   title: "IQAAN — Software, built with conviction.",
   description:
     "IQAAN is a software & product studio. We design and engineer custom software, SaaS platforms, and products for companies that refuse to ship the ordinary.",
@@ -66,12 +68,14 @@ export const metadata: Metadata = {
       "A software & product studio designing and engineering custom software, SaaS platforms, and products — for companies that refuse to ship the ordinary.",
     siteName: "IQAAN",
     type: "website",
+    images: OG_IMAGES,
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "IQAAN — Software, built with conviction.",
     description:
       "A software & product studio designing and engineering custom software, SaaS platforms, and products.",
+    images: OG_IMAGES,
   },
 };
 

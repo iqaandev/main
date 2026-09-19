@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTool, tools, type Tool } from '@/lib/tools/registry';
 import ToolLayout from '@/components/tools/ToolLayout';
+import { OG_IMAGES } from '@/lib/seo';
 import ProjectCostEstimator from '@/components/tools/ProjectCostEstimator';
 import MvpPrioritizer from '@/components/tools/MvpPrioritizer';
 import SaasCalculator from '@/components/tools/SaasCalculator';
@@ -42,6 +43,7 @@ export async function generateMetadata({
       description: tool.description,
       siteName: 'IQAAN',
       type: 'website',
+      images: OG_IMAGES,
     },
   };
 }
