@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL, tools } from '@/lib/tools/registry';
+import { legalDocuments } from '@/lib/legal';
 
 // Required for metadata routes under output: "export".
 export const dynamic = 'force-static';
@@ -24,6 +25,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
+    })),
+    ...legalDocuments.map((doc) => ({
+      url: `${SITE_URL}/${doc.slug}`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.2,
     })),
   ];
 }

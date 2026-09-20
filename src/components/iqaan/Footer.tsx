@@ -245,7 +245,13 @@ export default function Footer() {
             {t.footer.bottomLinks.map((link) => (
               <a
                 key={link}
-                href="#"
+                href={
+                  link === 'Privacy Policy' || link === 'سياسة الخصوصية'
+                    ? '/privacy'
+                    : link === 'Terms of Service' || link === 'شروط الخدمة'
+                      ? '/terms'
+                      : '/cookies'
+                }
                 className="transition-colors duration-300 hover:text-gold"
               >
                 {link}
