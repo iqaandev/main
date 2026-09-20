@@ -143,7 +143,9 @@ export default function Footer() {
                     href={
                       link === 'Developer Tools' || link === 'أدوات المطورين'
                         ? '/tools'
-                        : '#studio'
+                        : link === 'Blog' || link === 'المدونة'
+                          ? '/insights'
+                          : '#studio'
                     }
                     className="text-sm text-paper/65 transition-colors duration-300 hover:text-gold"
                   >
