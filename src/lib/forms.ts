@@ -11,7 +11,8 @@
  * direct-email fallback instead of pretending to send.
  */
 export const WEB3FORMS_KEY =
-  process.env.NEXT_PUBLIC_WEB3FORMS_KEY || '';
+  process.env.NEXT_PUBLIC_WEB3FORMS_KEY ||
+  '25aa6e13-1805-4a1b-9bfb-58d31f3cde5a';
 
 export async function submitToWeb3Forms(
   payload: Record<string, string>
