@@ -18,7 +18,8 @@ Each file is one ready-to-post draft with its card image in `images/`.
 ## Voice rules
 
 - Reads like the founder wrote it: anecdotes, contractions, varied rhythm, one informal beat.
-- No AI tells: no arrow bullets, no emoji, no hashtag walls (max 3), no perfect parallelism.
+- HARD SYMBOL BAN (posts and images, all phases): no em-dashes, no decorative glyphs (diamonds, stars, checks, crosses, arrows), no middle dots, no emoji. Plain punctuation only. If a line smells generated, rewrite it.
+- No AI tells: no arrow bullets, no hashtag walls (max 3), no perfect parallelism.
 - One idea per post, always ends with a save or answer prompt.
 
 ## Feedback loop
