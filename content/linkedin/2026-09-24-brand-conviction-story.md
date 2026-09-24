@@ -1,28 +1,21 @@
-# Post 3 — Brand story (publish ~4 days after post 2; also the best candidate to repost bilingually)
+# Post 3 — Brand story (publish ~4 days after post 2, evening slot 7-9pm)
 
-**Tip:** Evening (7–9pm) posts do well for story-format. Personal profile, tag the page. No link needed — or calculator link in first comment.
+**Tip:** Story format performs well evenings. Personal profile, tag the page. No link needed; attach `images/post3-brand-arabic.png`.
 
 ---
 
-Our name is Arabic, and it means something most software studios would be afraid to commit to.
+People ask what our name means more than anything else.
 
-إيقان — iʿqān. Deep conviction. Certainty so settled it doesn't need to shout.
+IQAAN comes from Arabic. إيقان, iʿqān. It means conviction, the deep settled kind of certainty that never needs to raise its voice.
 
-We put it on the homepage because it's a standard, not a slogan:
+Naming a software studio after certainty sounds bold, until you realize it's just a promise we have to keep daily.
 
-Every architectural decision is made with conviction — or not at all.
+It's why we publish price ranges while others ask for an NDA first. Why our calculators show their math instead of a black box. Why our own site says "this is an estimate, not a quote" right next to the button that asks you for one.
 
-That sounds poetic. In practice it's mostly discipline:
+Anyone can write the word quality on a homepage. Conviction is checkable.
 
-→ We publish price shapes while others hide behind NDAs
-→ We ship free tools with the math exposed
-→ We say "this is an estimate, not a quote" on our own website — because honesty about uncertainty IS the confidence clients are buying
+Software, built with conviction. برمجيات تُبنى باليقين.
 
-Anyone can claim quality. Conviction is quality you can audit.
+If you made it to the end of both languages, we should probably talk.
 
-Software, built with conviction.
-برمجيات تُبنى باليقين.
-
-If you read this far in two languages — that's exactly the audience we build for.
-
-#SoftwareStudio #Brand #Bilingual #MiddleEast #BuildInPublic
+#SoftwareStudio #Bilingual #MiddleEast

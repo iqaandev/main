@@ -1,46 +1,35 @@
 # Post 1 — LAUNCH (publish first, today or tomorrow)
 
-**Tip:** Post Thursday 8–10am or Sunday evening from your personal profile. Tag the IQAAN company page in the first line. Link in the FIRST comment.
+**Tip:** Thursday 8–10am or Sunday evening, from your personal profile. Tag the IQAAN company page in the first line. Link goes in the FIRST comment. Attach the image `images/post1-launch.png`.
 
 ---
 
-Every studio gets asked the same question: "How much will it cost?"
+We got tired of a question, so we built the answer.
 
-We decided to just answer it. For free.
+Almost every first call starts the same way. Someone describes their idea, then asks the thing they actually care about: "so how much is this going to cost?"
 
-IQAAN just shipped 7 free decision tools for anyone building software — no signup, no email wall, and everything runs in your browser. Nothing you type is ever uploaded.
+Fair question. The honest answer has always been "it depends", which helps nobody.
 
-→ A project cost estimator that shows you the budget range AND the itemized math behind it
-→ An MVP prioritizer that scores your feature list so meetings stop deciding scope
-→ An LTV:CAC calculator that tells you if your SaaS is a business or a treadmill
-→ Plus a tech stack advisor, cloud cost estimator, maintenance calculator, and ROI model
+So we put our numbers on the table. Seven free tools are live on our site right now.
 
-Why give this away?
+A cost estimator that shows the range AND the itemized math behind it. A prioritizer for cutting MVP scope without the politics. An LTV:CAC calculator for SaaS founders who want to know if the machine actually works. Plus a tech stack advisor, a cloud cost estimator, a maintenance reality check, and an ROI model.
 
-Because "it depends" is a lazy answer, and software decisions shouldn't need an NDA to get a shape.
+No signup. No email wall. Everything runs in your browser and nothing gets uploaded. We literally cannot see what you type.
 
-Because we're a studio that publishes its assumptions instead of hiding them.
+A few industry friends told us we're giving away the discovery call. Maybe. Our take: a studio confident in its math should publish it.
 
-And because the tools are the pitch: if you like how we think in a calculator, you'll like how we build.
+Link's in the comments. Start with the cost estimator, takes about a minute.
 
-Try the cost estimator first — 60 seconds, and you'll never look at a quote the same way again.
-
-Link in comments.
-
-#SoftwareDevelopment #Startups #ProductManagement #SaaS #BuildInPublic
+#SoftwareDevelopment #Startups
 
 ---
 
-**نسخة عربية (أضفها كتعليق أو منشور منفصل):**
+**نسخة عربية (كتعليق مثبّت أو منشور منفصل لاحقاً):**
 
-كل استوديو يُسأل السؤال نفسه: «كم سيكلّف؟»
+مللنا من سؤال، فبنينا الجواب.
 
-قررنا أن نجيب ببساطة. مجاناً.
+كل مكالمة أولى تبدأ بنفس الطريقة: «كم سيكلّف؟». والجواب الصادق دائماً «يعتمد» — وهذا لا يساعد أحداً.
 
-أطلقت إيقان ٧ أدوات مجانية لكل من يبني برمجيات — بلا تسجيل، وكل شيء يعمل في متصفحك، ولا يُرفع أي شيء.
+فوضعنا أرقامنا على الطاولة: سبع أدوات مجانية على موقعنا الآن، منها مقدّر تكلفة يريك النطاق والحساب كاملاً خلفه. بلا تسجيل، وكل شيء يعمل في متصفحك ولا يُرفع شيء.
 
-منها: مقدّر تكلفة المشاريع، وأداة ترتيب ميزات الـ MVP، وحاسبة LTV:CAC لمنصات SaaS، ومستشار الحزم التقنية.
-
-«يعتمد» جواب كسول. والقرارات البرمجية لا تحتاج اتفاقية سرية لتعرف شكلها.
-
-الرابط في التعليقات.
+من يثق بأسعار لا يخفيها. الرابط في التعليقات.
